@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.proizvo</groupId>
+    <artifactId>proizvo-editor</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
+    
+    <dependencies>
+        <!-- Helpers -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <!-- For JSON -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.7</version>
+        </dependency>
+        <!-- For M4A (Advanced Audio Coding (AAC)) -->
+        <dependency>
+            <groupId>net.sourceforge.jaadec</groupId>
+            <artifactId>jaad</artifactId>
+            <version>0.8.5</version>
+        </dependency>  
+        <!-- For OGG (Ogg Vorbis) -->
+        <dependency>
+            <groupId>com.googlecode.soundlibs</groupId>
+            <artifactId>vorbisspi</artifactId>
+            <version>1.0.3-2</version>
+        </dependency>
+    </dependencies>
+    
+    <repositories>
+        <!-- For jaadec -->
+        <repository>
+            <id>central</id>
+            <name>bintray</name>
+            <url>http://jcenter.bintray.com</url>
+        </repository>
+    </repositories>
+</project>
