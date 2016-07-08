@@ -1,0 +1,4 @@
+test:
+  post:
+    - mkdir $CIRCLE_ARTIFACTS/last_build
+    - mv proivzo-editor/target/*.jar $CIRCLE_ARTIFACTS/last_build
