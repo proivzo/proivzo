@@ -1,5 +1,6 @@
 package com.proizvo.editor.app;
 
+import com.google.gson.Gson;
 import com.proizvo.editor.api.IProject;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -8,8 +9,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Arrays;
 import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.FileUtils;
 
@@ -56,5 +57,15 @@ public class Environment {
     public byte[] parseBase64(File file) throws IOException {
         String txt = FileUtils.readFileToString(file, "UTF8");
         return DatatypeConverter.parseBase64Binary(txt);
+    }
+
+    public <T> T loadJson(Class<?> type, String path, Class<T> target) throws IOException {
+        ClassLoader clazz = type.getClassLoader();
+        try (InputStream in = clazz.getResourceAsStream(path)) {
+            try (InputStreamReader rd = new InputStreamReader(in)) {
+                Gson json = new Gson();
+                return json.fromJson(rd, target);
+            }
+        }
     }
 }

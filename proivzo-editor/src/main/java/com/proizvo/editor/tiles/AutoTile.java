@@ -1,13 +1,11 @@
 package com.proizvo.editor.tiles;
 
-import com.google.gson.Gson;
+import com.proizvo.editor.app.Environment;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -63,12 +61,7 @@ public class AutoTile {
     }
 
     public static int[][] readHowto() throws IOException {
-        ClassLoader clazz = AutoTile.class.getClassLoader();
-        try (InputStream in = clazz.getResourceAsStream("internal/autotiles.json")) {
-            try (InputStreamReader rd = new InputStreamReader(in)) {
-                Gson json = new Gson();
-                return json.fromJson(rd, int[][].class);
-            }
-        }
+        Environment env = Environment.getInstance();
+        return env.loadJson(AutoTile.class, "internal/autotiles.json", int[][].class);
     }
 }
