@@ -1,6 +1,7 @@
 package com.proizvo.editor.tiles;
 
 import com.proizvo.editor.app.Environment;
+import com.proizvo.editor.util.Drawing;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -23,7 +24,7 @@ public class AutoTile {
         final int tileSize = 48;
         final int halfSize = tileSize / 2;
         BufferedImage tile = new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = tile.createGraphics();
+        Graphics2D g2d = Drawing.create2D(tile);
         int idx = 0;
         for (int y = 0; y < 2; y++) {
             for (int x = 0; x < 2; x++) {
@@ -54,7 +55,7 @@ public class AutoTile {
         int width = (int) dim.getWidth();
         int height = (int) dim.getHeight();
         BufferedImage buffImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = buffImage.createGraphics();
+        Graphics2D g2d = Drawing.create2D(buffImage);
         g2d.drawImage(image, 0, 0, width, height, x, y, x + width, y + height, null);
         g2d.dispose();
         return buffImage;

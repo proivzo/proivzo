@@ -3,8 +3,10 @@ package com.proizvo.editor.tiles;
 import com.proizvo.editor.data.Map;
 import com.proizvo.editor.data.Tileset;
 import com.proizvo.editor.impl.RPGMakerMVProj;
+import com.proizvo.editor.util.Drawing;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,7 +39,7 @@ public class TilePanel extends JPanel {
         }
     }
 
-    private void paintGrid(Graphics g) {
+    private void paintGrid(Graphics2D g) {
         if (map == null || !gridEnabled) {
             return;
         }
@@ -49,7 +51,7 @@ public class TilePanel extends JPanel {
         }
     }
 
-    private void paintTiles(Graphics g, int level) {
+    private void paintTiles(Graphics2D g, int level) {
         if (map == null || !tilesEnabled) {
             return;
         }
@@ -62,7 +64,7 @@ public class TilePanel extends JPanel {
         }
     }
 
-    private void paintTile(Graphics g, int x, int y, int tile) {
+    private void paintTile(Graphics2D g, int x, int y, int tile) {
         String tileImgName = "?";
         if (tile <= 255) {
             tileImgName = "World_B";
@@ -119,7 +121,8 @@ public class TilePanel extends JPanel {
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics r) {
+        Graphics2D g = Drawing.create2D(r);
         super.paint(g);
         paintGrid(g);
         for (int l = 0; l < 6; l++) {

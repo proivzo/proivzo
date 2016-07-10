@@ -1,5 +1,6 @@
 package com.proizvo.editor.tiles;
 
+import com.proizvo.editor.util.Drawing;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -21,7 +22,7 @@ public class ColorTile {
 
     public static Image drawHalfed(Color firstColor, Color secondColor) {
         BufferedImage img = new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = img.createGraphics();
+        Graphics2D g = Drawing.create2D(img);
         int half = tileSize / 2;
         g.setColor(firstColor);
         g.fillRect(0, 0, half, half);

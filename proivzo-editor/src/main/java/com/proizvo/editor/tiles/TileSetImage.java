@@ -2,7 +2,6 @@ package com.proizvo.editor.tiles;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
@@ -12,6 +11,8 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 import static com.proizvo.editor.tiles.AutoTile.*;
+import com.proizvo.editor.util.Drawing;
+import java.awt.Graphics2D;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -91,7 +92,7 @@ public class TileSetImage {
         int col = idx - (row * colCount);
         final int smallerTs = tileSize - 5;
         BufferedImage bi = new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = bi.createGraphics();
+        Graphics2D g = Drawing.create2D(bi);
         int dx1 = 0;
         int dy1 = 0;
         int dx2 = smallerTs;
