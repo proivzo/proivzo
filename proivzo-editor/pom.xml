@@ -79,7 +79,31 @@
     <build>
         <plugins>
             <plugin>
-                <!-- For OS X bundling -->
+                <!-- For Microsoft Windows bundling -->            
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>1.7.10</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>target/${project.build.finalName}.exe</outfile>
+                            <classPath>
+                                <mainClass>${exe.class}</mainClass>
+                            </classPath>
+                            <jre>
+                                <minVersion>${maven.compiler.source}.0</minVersion>
+                            </jre>
+                        </configuration>
+                    </execution>                
+                </executions>
+            </plugin>
+            <plugin>
+                <!-- For Apple OS X bundling -->
                 <groupId>sh.tak.appbundler</groupId>
                 <artifactId>appbundle-maven-plugin</artifactId>
                 <version>1.1.0</version>
