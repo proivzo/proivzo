@@ -518,6 +518,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         menuBar.add(editMenu);
 
+        modeMenu.setMnemonic('m');
         modeMenu.setText("Mode");
 
         mcMap.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
@@ -531,6 +532,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         menuBar.add(modeMenu);
 
+        drawMenu.setMnemonic('d');
         drawMenu.setText("Draw");
 
         mcPencil.setSelected(true);
@@ -551,6 +553,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         menuBar.add(drawMenu);
 
+        scaleMenu.setMnemonic('s');
         scaleMenu.setText("Scale");
 
         miZoomIn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PLUS, java.awt.event.InputEvent.CTRL_MASK));
@@ -567,6 +570,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         menuBar.add(scaleMenu);
 
+        toolsMenu.setMnemonic('t');
         toolsMenu.setText("Tools");
 
         miDatabase.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, 0));
@@ -588,6 +592,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         menuBar.add(toolsMenu);
 
+        gameMenu.setMnemonic('g');
         gameMenu.setText("Game");
 
         miGameTest.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));

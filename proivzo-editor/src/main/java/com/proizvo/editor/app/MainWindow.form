@@ -251,6 +251,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="modeMenu">
           <Properties>
+            <Property name="mnemonic" type="int" value="109"/>
             <Property name="text" type="java.lang.String" value="Mode"/>
           </Properties>
           <SubComponents>
@@ -275,6 +276,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="drawMenu">
           <Properties>
+            <Property name="mnemonic" type="int" value="100"/>
             <Property name="text" type="java.lang.String" value="Draw"/>
           </Properties>
           <SubComponents>
@@ -308,6 +310,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="scaleMenu">
           <Properties>
+            <Property name="mnemonic" type="int" value="115"/>
             <Property name="text" type="java.lang.String" value="Scale"/>
           </Properties>
           <SubComponents>
@@ -339,6 +342,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="toolsMenu">
           <Properties>
+            <Property name="mnemonic" type="int" value="116"/>
             <Property name="text" type="java.lang.String" value="Tools"/>
           </Properties>
           <SubComponents>
@@ -377,6 +381,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="gameMenu">
           <Properties>
+            <Property name="mnemonic" type="int" value="103"/>
             <Property name="text" type="java.lang.String" value="Game"/>
           </Properties>
           <SubComponents>
