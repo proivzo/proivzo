@@ -79,6 +79,33 @@
     <build>
         <plugins>
             <plugin>
+                <!-- For Debian GNU/Linux bundling -->
+                <groupId>org.vafer</groupId>
+                <artifactId>jdeb</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jdeb</goal>
+                        </goals>
+                        <configuration>
+                            <deb>${project.build.directory}/${project.build.finalName}.deb</deb>
+                            <dataSet>
+                                <data>
+                                    <src>${project.build.directory}/${project.build.finalName}.jar</src>
+                                    <type>file</type>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>/usr/share/${project.name}/lib</prefix>
+                                    </mapper>
+                                </data>
+                            </dataSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <!-- For Microsoft Windows bundling -->            
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
@@ -91,7 +118,7 @@
                         </goals>
                         <configuration>
                             <headerType>gui</headerType>
-                            <outfile>target/${project.build.finalName}.exe</outfile>
+                            <outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
                             <classPath>
                                 <mainClass>${exe.class}</mainClass>
                                 <!-- <addDependencies>false</addDependencies> -->

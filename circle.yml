@@ -4,3 +4,4 @@ test:
     - mv proivzo-editor/target/*.jar $CIRCLE_ARTIFACTS/last_build
     - mv proivzo-editor/target/*.dmg $CIRCLE_ARTIFACTS/last_build
     - mv proivzo-editor/target/*.exe $CIRCLE_ARTIFACTS/last_build
+    - mv proivzo-editor/target/*.deb $CIRCLE_ARTIFACTS/last_build
