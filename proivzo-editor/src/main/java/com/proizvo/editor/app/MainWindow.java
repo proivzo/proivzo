@@ -13,6 +13,7 @@ import com.proizvo.editor.data.Tileset;
 import com.proizvo.editor.impl.RPGMakerMVProj;
 import com.proizvo.editor.tiles.TilePanel;
 import com.proizvo.editor.util.Strings;
+import com.proizvo.editor.view.EventIconPanel;
 import com.proizvo.editor.view.MapNode;
 import com.proizvo.editor.view.TileIconPanel;
 import java.awt.Desktop;
@@ -916,6 +917,7 @@ public class MainWindow extends javax.swing.JFrame {
         for (Entry<String, List<String>> e : groups.entrySet()) {
             tbpItems.addTab(e.getKey(), new TileIconPanel(e.getValue(), proj));
         }
+        tbpItems.addTab("R", new EventIconPanel(null, proj));
         tbpItems.repaint();
     }
 
