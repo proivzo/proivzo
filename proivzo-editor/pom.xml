@@ -94,12 +94,14 @@
                             <outfile>target/${project.build.finalName}.exe</outfile>
                             <classPath>
                                 <mainClass>${exe.class}</mainClass>
+                                <!-- <addDependencies>false</addDependencies> -->
+                                <!-- <preCp>anything</preCp> -->
                             </classPath>
                             <jre>
                                 <minVersion>${maven.compiler.source}.0</minVersion>
                             </jre>
                         </configuration>
-                    </execution>                
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
