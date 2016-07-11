@@ -1,3 +1,7 @@
+dependencies:
+  pre:
+    - sudo apt-get install rpm
+
 test:
   post:
     - mkdir $CIRCLE_ARTIFACTS/last_build
