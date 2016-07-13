@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import java.awt.event.WindowEvent;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -67,6 +69,11 @@ public class MainWindow extends javax.swing.JFrame {
         tfStorageLoc = new javax.swing.JTextField();
         btnChooseStorage = new javax.swing.JButton();
         chooseProjFolder = new javax.swing.JFileChooser();
+        aboutDialog = new javax.swing.JDialog();
+        abCloseBtn = new javax.swing.JButton();
+        abVerLbl = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         toolBar = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -161,6 +168,8 @@ public class MainWindow extends javax.swing.JFrame {
         openProjChooser.setDialogTitle("Open project");
         openProjChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Maker project (*.rpgproject)", "rpgproject"));
 
+        newProjDialog.setResizable(false);
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Name:");
 
@@ -230,6 +239,62 @@ public class MainWindow extends javax.swing.JFrame {
         chooseProjFolder.setApproveButtonText("Select folder");
         chooseProjFolder.setDialogTitle("Choose folder");
         chooseProjFolder.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
+
+        aboutDialog.setTitle("About Proizvo");
+        aboutDialog.setResizable(false);
+
+        abCloseBtn.setText("Close");
+        abCloseBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abCloseBtnActionPerformed(evt);
+            }
+        });
+
+        abVerLbl.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        abVerLbl.setText("Version 1.0.0");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setText("Copyright (C) 2016 Open Inventions Federated, Inc.");
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/app_icon.jpg"))); // NOI18N
+
+        javax.swing.GroupLayout aboutDialogLayout = new javax.swing.GroupLayout(aboutDialog.getContentPane());
+        aboutDialog.getContentPane().setLayout(aboutDialogLayout);
+        aboutDialogLayout.setHorizontalGroup(
+            aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(aboutDialogLayout.createSequentialGroup()
+                .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(aboutDialogLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(abCloseBtn))
+                    .addGroup(aboutDialogLayout.createSequentialGroup()
+                        .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(aboutDialogLayout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(jLabel5))
+                            .addGroup(aboutDialogLayout.createSequentialGroup()
+                                .addGap(117, 117, 117)
+                                .addComponent(jLabel10)))
+                        .addGap(0, 15, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(aboutDialogLayout.createSequentialGroup()
+                .addGap(135, 135, 135)
+                .addComponent(abVerLbl)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        aboutDialogLayout.setVerticalGroup(
+            aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, aboutDialogLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel10)
+                .addGap(13, 13, 13)
+                .addComponent(abVerLbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addComponent(abCloseBtn)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Proizvo");
@@ -617,10 +682,20 @@ public class MainWindow extends javax.swing.JFrame {
         contentsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         contentsMenuItem.setMnemonic('c');
         contentsMenuItem.setText("Contents");
+        contentsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contentsMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(contentsMenuItem);
 
         aboutMenuItem.setMnemonic('a');
         aboutMenuItem.setText("About...");
+        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(aboutMenuItem);
 
         menuBar.add(helpMenu);
@@ -723,6 +798,27 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mapTreeValueChanged
 
+    private void contentsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentsMenuItemActionPerformed
+        try {
+            Desktop desk = Desktop.getDesktop();
+            File index = new File("H:\\RPGMV\\Help\\index.html");
+            desk.browse(index.toURI());
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_contentsMenuItemActionPerformed
+
+    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
+        aboutDialog.setLocationRelativeTo(this);
+        aboutDialog.setModal(true);
+        aboutDialog.pack();
+        aboutDialog.setVisible(true);
+    }//GEN-LAST:event_aboutMenuItemActionPerformed
+
+    private void abCloseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abCloseBtnActionPerformed
+        aboutDialog.setVisible(false);
+    }//GEN-LAST:event_abCloseBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -759,6 +855,9 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton abCloseBtn;
+    private javax.swing.JLabel abVerLbl;
+    private javax.swing.JDialog aboutDialog;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton btnChooseStorage;
     private javax.swing.JFileChooser chooseProjFolder;
@@ -787,9 +886,11 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
