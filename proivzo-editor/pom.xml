@@ -157,8 +157,8 @@
                     <bundleName>Proizvo</bundleName>
                     <mainClass>${exe.class}</mainClass>
                     <generateDiskImageFile>true</generateDiskImageFile>
+                    <iconFile>res/app_icon.icns</iconFile>
                     <!-- <dictionaryFile>YourCustomInfo.plist</dictionaryFile> -->
-                    <!-- <iconFile>CustomIncon.icns</iconFile> -->
                     <!-- <jrePath>/Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk</jrePath> -->
                 </configuration>
                 <executions>
