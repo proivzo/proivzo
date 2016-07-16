@@ -12,10 +12,12 @@ import com.proizvo.editor.data.MapInfo;
 import com.proizvo.editor.data.Tileset;
 import com.proizvo.editor.impl.RPGMakerMVProj;
 import com.proizvo.editor.tiles.TilePanel;
+import com.proizvo.editor.ui.PluginManagerDialog;
 import com.proizvo.editor.util.Strings;
 import com.proizvo.editor.view.EventIconPanel;
 import com.proizvo.editor.view.MapNode;
 import com.proizvo.editor.view.TileIconPanel;
+import com.sun.webkit.plugin.PluginManager;
 import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.io.File;
@@ -391,7 +393,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Proizvo");
-        setPreferredSize(new java.awt.Dimension(1130, 775));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -743,6 +744,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         miPlugins.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F10, 0));
         miPlugins.setText("Plug-in manager...");
+        miPlugins.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPluginsActionPerformed(evt);
+            }
+        });
         toolsMenu.add(miPlugins);
 
         miSounds.setText("Sound test...");
@@ -933,6 +939,11 @@ public class MainWindow extends javax.swing.JFrame {
         File pubFolder = chooseProjFolder.getSelectedFile();
         tfPubStorageLoc.setText(pubFolder.getAbsolutePath());
     }//GEN-LAST:event_btnChoosePubStorageActionPerformed
+
+    private void miPluginsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPluginsActionPerformed
+        PluginManagerDialog pmgr = new PluginManagerDialog(this, true);
+        pmgr.setVisible(true);
+    }//GEN-LAST:event_miPluginsActionPerformed
 
     /**
      * @param args the command line arguments
