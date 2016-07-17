@@ -17,7 +17,6 @@ import com.proizvo.editor.util.Strings;
 import com.proizvo.editor.view.EventIconPanel;
 import com.proizvo.editor.view.MapNode;
 import com.proizvo.editor.view.TileIconPanel;
-import com.sun.webkit.plugin.PluginManager;
 import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.io.File;

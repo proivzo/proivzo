@@ -8,15 +8,15 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 	
-	<name>Proizvo Editor</name>
-	<description>A free and Open Source game creation studio</description>
+    <name>Proizvo Editor</name>
+    <description>A free and Open Source game creation studio</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <exe.class>com.proizvo.editor.app.MainWindow</exe.class>
-		<exe.version>1.0.0.0</exe.version>
+        <exe.version>1.0.0.0</exe.version>
     </properties>
 
     <dependencies>
@@ -148,19 +148,19 @@
                             <jre>
                                 <minVersion>${maven.compiler.source}.0</minVersion>
                             </jre>
-							<icon>res/app_icon.ico</icon>
-							<versionInfo>
-								<fileVersion>${exe.version}</fileVersion>
-								<txtFileVersion>${exe.version}</txtFileVersion>
-								<fileDescription>${project.description}</fileDescription>
-								<productVersion>${exe.version}</productVersion>
-								<txtProductVersion>${exe.version}</txtProductVersion>
-								<productName>${project.name}</productName>
-								<companyName>${project.name}</companyName>
-								<internalName>${project.name}</internalName>
-								<originalFilename>${project.artifactId}.exe</originalFilename>
-								<copyright>${project.groupId}</copyright>
-							</versionInfo>
+                            <icon>res/app_icon.ico</icon>
+                            <versionInfo>
+                                <fileVersion>${exe.version}</fileVersion>
+                                <txtFileVersion>${exe.version}</txtFileVersion>
+                                <fileDescription>${project.description}</fileDescription>
+                                <productVersion>${exe.version}</productVersion>
+                                <txtProductVersion>${exe.version}</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <companyName>${project.name}</companyName>
+                                <internalName>${project.name}</internalName>
+                                <originalFilename>${project.artifactId}.exe</originalFilename>
+                                <copyright>${project.groupId}</copyright>
+                            </versionInfo>
                         </configuration>
                     </execution>
                 </executions>
