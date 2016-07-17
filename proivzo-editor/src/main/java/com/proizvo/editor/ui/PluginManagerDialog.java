@@ -69,10 +69,9 @@ public class PluginManagerDialog extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        setTitle("Plugin Manager");
+        setTitle("Plug-in Manager");
         setModal(true);
         setResizable(false);
-        setType(java.awt.Window.Type.POPUP);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);
