@@ -11,6 +11,11 @@
     <name>Proizvo Editor</name>
     <description>A free and Open Source game creation studio</description>
 
+    <organization>
+        <name>Open Inventions Federated, Inc.</name>
+        <url>https://github.com/proivzo</url>
+    </organization>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
@@ -121,7 +126,23 @@
                             <goal>rpm</goal>
                         </goals>
                         <configuration>
-                            <group>Development</group>    
+                            <group>Development</group>
+                            <license>AGPL-3.0</license>
+                            <distribution>Proivzo 2016</distribution>
+                            <icon>res/app_icon.xpm</icon>
+                            <packager>OIF</packager>
+                            <prefix>/usr/local</prefix>
+                            <changelogFile>src/changelog</changelogFile>
+                            <mappings>
+                                <mapping>
+                                    <directory>/usr/share/${project.name}/lib</directory>
+                                    <sources>
+                                        <source>
+                                            <location>target/classes</location>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                            </mappings>
                         </configuration>
                     </execution>
                 </executions>
