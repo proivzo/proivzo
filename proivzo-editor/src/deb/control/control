@@ -1,8 +1,10 @@
-Package: [[name]]
+Package: [[artifactId]]
 Version: [[version]]
 Section: misc
-Priority: low
+Priority: optional
 Architecture: all
+Depends: jdk (>= 1.7)
+Maintainer: Hubertus Sack <husaft@github.com>
 Description: [[description]]
-Maintainer: [[vendor]]
+Distribution: development
 Depends: default-jre | java6-runtime

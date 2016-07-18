@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 	
     <name>Proizvo Editor</name>
-    <description>A free and Open Source game creation studio</description>
+    <description>Free and Open Source game creation studio</description>
 
     <organization>
         <name>Open Inventions Federated, Inc.</name>
@@ -108,6 +108,16 @@
                                         <type>perm</type>
                                         <prefix>/usr/share/${project.name}/lib</prefix>
                                     </mapper>
+                                </data>
+                                <data>
+                                    <src>${project.build.directory}/../../LICENSE</src>
+                                    <type>file</type>
+                                    <dst>/usr/share/doc/${project.artifactId}/copyright</dst>
+                                </data>
+                                <data>
+                                    <src>${project.build.directory}/../src/changelog.gz</src>
+                                    <type>file</type>
+                                    <dst>/usr/share/doc/${project.artifactId}/changelog.gz</dst>
                                 </data>
                             </dataSet>
                         </configuration>
