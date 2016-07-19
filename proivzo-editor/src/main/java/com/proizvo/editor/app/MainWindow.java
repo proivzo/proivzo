@@ -17,6 +17,10 @@ import com.proizvo.editor.util.Strings;
 import com.proizvo.editor.view.EventIconPanel;
 import com.proizvo.editor.view.MapNode;
 import com.proizvo.editor.view.TileIconPanel;
+import com.xafero.sew.Wiki;
+import com.xafero.sew.api.Weblet;
+import com.xafero.sew.impl.Resource;
+
 import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.io.File;
@@ -28,6 +32,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -904,9 +910,13 @@ public class MainWindow extends javax.swing.JFrame {
     private void contentsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentsMenuItemActionPerformed
         try {
             Desktop desk = Desktop.getDesktop();
-            File index = new File("H:\\RPGMV\\Help\\index.html");
-            desk.browse(index.toURI());
-        } catch (IOException ex) {
+            Weblet r = new Resource(getClass(), "help");
+    		Wiki wiki = new Wiki(r);
+    		ExecutorService pool = Executors.newCachedThreadPool();
+    		pool.submit(wiki);
+    		Thread.sleep(100);
+            desk.browse(wiki.getEndpoint());
+        } catch (Exception ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_contentsMenuItemActionPerformed
