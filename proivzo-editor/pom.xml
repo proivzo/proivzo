@@ -102,6 +102,7 @@
     <build>
         <plugins>
             <plugin>
+                <!-- For other Operating Systems -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <executions>
@@ -172,7 +173,7 @@
                 </executions>
             </plugin>
             <plugin>
-                <!-- For Red Hat Linux bundling -->
+                <!-- For Red Hat GNU/Linux bundling -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>rpm-maven-plugin</artifactId>
                 <version>2.1.5</version>
@@ -184,22 +185,82 @@
                         </goals>
                         <configuration>
                             <group>Development</group>
-                            <license>AGPL-3.0</license>
+                            <license>AGPLv3</license>
                             <distribution>Proivzo 2016</distribution>
                             <icon>res/app_icon.xpm</icon>
                             <packager>OIF</packager>
-                            <prefix>/usr/local</prefix>
+                            <prefix>/opt</prefix>
                             <changelogFile>src/changelog</changelogFile>
                             <mappings>
                                 <mapping>
-                                    <directory>/usr/share/${project.name}/lib</directory>
+                                    <directory>${linux.dir}/bin</directory>
+                                    <filemode>755</filemode>
                                     <sources>
                                         <source>
-                                            <location>target/classes</location>
+                                            <location>${project.build.directory}/../src/${project.artifactId}.sh</location>
+                                            <destination>${project.artifactId}</destination>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
+                                    <directory>${linux.dir}/lib</directory>
+                                    <filemode>444</filemode>
+                                    <sources>
+                                        <source>
+                                            <location>${project.build.directory}/${project.build.finalName}-single.jar</location>
+                                            <destination>${project.artifactId}.jar</destination>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
+                                    <directory>/usr/share/applications</directory>
+                                    <filemode>444</filemode>
+                                    <sources>
+                                        <source>
+                                            <location>${project.build.directory}/../src/${project.artifactId}.desktop</location>
+                                            <destination>${project.artifactId}.desktop</destination>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
+                                    <directory>/usr/share/pixmaps</directory>
+                                    <filemode>444</filemode>
+                                    <sources>
+                                        <source>
+                                            <location>res/app_icon.xpm</location>
+                                            <destination>${project.artifactId}.xpm</destination>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
+                                    <directory>${linuxDoc.dir}</directory>
+                                    <filemode>444</filemode>
+                                    <sources>
+                                        <source>
+                                            <location>${project.build.directory}/../../LICENSE</location>
+                                            <destination>copyright</destination>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
+                                    <directory>${linuxDoc.dir}</directory>
+                                    <filemode>444</filemode>
+                                    <sources>
+                                        <source>
+                                            <location>${project.build.directory}/../src/changelog.gz</location>
+                                            <destination>changelog.gz</destination>
                                         </source>
                                     </sources>
                                 </mapping>
                             </mappings>
+                            <postinstallScriptlet>
+                                <scriptFile>src/deb/control/postinst</scriptFile>
+                                <fileEncoding>utf-8</fileEncoding>
+                            </postinstallScriptlet>
+                            <preremoveScriptlet>
+                                <scriptFile>src/deb/control/postrm</scriptFile>
+                                <fileEncoding>utf-8</fileEncoding>
+                            </preremoveScriptlet>
                         </configuration>
                     </execution>
                 </executions>
