@@ -22,6 +22,8 @@
         <maven.compiler.target>1.7</maven.compiler.target>
         <exe.class>com.proizvo.editor.app.MainWindow</exe.class>
         <exe.version>1.0.0.0</exe.version>
+<linux.dir>/opt/${project.artifactId}</linux.dir>
+<linuxDoc.dir>/usr/share/doc/${project.artifactId}</linuxDoc.dir>
     </properties>
 
     <dependencies>
@@ -87,6 +89,40 @@
         
     <build>
         <plugins>
+
+
+
+
+
+<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-shade-plugin</artifactId>
+		  <executions>
+		    <execution>
+			<phase>package</phase>
+			<goals>
+				<goal>shade</goal>
+			</goals>
+			<configuration>
+<shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>single</shadedClassifierName>
+			  <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+					<mainClass>${exe.class}</mainClass>
+				</transformer>
+			  </transformers>
+			</configuration>
+		      </execution>
+		  </executions>
+		</plugin>
+
+
+
+
+
+
+
+
             <plugin>
                 <!-- For Debian GNU/Linux bundling -->
                 <groupId>org.vafer</groupId>
@@ -101,23 +137,35 @@
                         <configuration>
                             <deb>${project.build.directory}/${project.build.finalName}.deb</deb>
                             <dataSet>
+<data>
+<src>${project.build.directory}/../src/${project.artifactId}.sh</src>
+<type>file</type>
+<dst>${linux.dir}/bin/${project.artifactId}</dst>
+</data>
                                 <data>
-                                    <src>${project.build.directory}/${project.build.finalName}.jar</src>
+                                    <src>${project.build.directory}/${project.build.finalName}-single.jar</src>
                                     <type>file</type>
-                                    <mapper>
-                                        <type>perm</type>
-                                        <prefix>/usr/share/${project.name}/lib</prefix>
-                                    </mapper>
+<dst>${linux.dir}/lib/${project.artifactId}.jar</dst>
                                 </data>
+<data>
+<src>${project.build.directory}/../src/${project.artifactId}.desktop</src>
+<type>file</type>
+<dst>/usr/share/applications/${project.artifactId}.desktop</dst>
+</data>
+<data>
+<src>res/app_icon.xpm</src>
+<type>file</type>
+<dst>/usr/share/pixmaps/${project.artifactId}.xpm</dst>
+</data>
                                 <data>
                                     <src>${project.build.directory}/../../LICENSE</src>
                                     <type>file</type>
-                                    <dst>/usr/share/doc/${project.artifactId}/copyright</dst>
+                                    <dst>${linuxDoc.dir}/copyright</dst>
                                 </data>
                                 <data>
                                     <src>${project.build.directory}/../src/changelog.gz</src>
                                     <type>file</type>
-                                    <dst>/usr/share/doc/${project.artifactId}/changelog.gz</dst>
+                                    <dst>${linuxDoc.dir}/changelog.gz</dst>
                                 </data>
                             </dataSet>
                         </configuration>
