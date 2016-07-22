@@ -76,6 +76,12 @@
             <artifactId>vorbisspi</artifactId>
             <version>1.0.3-2</version>
         </dependency>
+        <!-- For online help -->
+		<dependency>
+			<groupId>com.github.xafero</groupId>
+			<artifactId>sew</artifactId>
+			<version>9c0e1debf8</version>
+		</dependency>
     </dependencies>
 
     <repositories>
@@ -85,6 +91,12 @@
             <name>bintray</name>
             <url>http://jcenter.bintray.com</url>
         </repository>
+        <!-- For ad-hoc stuff -->
+		<repository>
+			<id>jitpack.io</id>
+			<name>jitpack</name>
+			<url>https://jitpack.io</url>
+		</repository>
     </repositories>
         
     <build>
