@@ -5,6 +5,8 @@ Priority: optional
 Architecture: all
 Depends: jdk (>= 1.7)
 Maintainer: Hubertus Sack <husaft@github.com>
+Homepage: https://github.com/proivzo/proivzo
+Provides: [[artifactId]]
 Description: [[description]]
 Distribution: development
 Depends: default-jre | java6-runtime

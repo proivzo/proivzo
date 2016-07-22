@@ -1,0 +1,5 @@
+#!/bin/bash -e
+
+# Link and make script executable
+ln -s /opt/proizvo-editor/bin/proizvo-editor /usr/bin/proizvo-editor
+chmod +x /usr/bin/proizvo-editor

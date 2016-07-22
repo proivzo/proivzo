@@ -1,0 +1,22 @@
+[Desktop Entry]
+Version=1.0
+Name=Proizvo Editor
+Comment=Game Editing. Reimagined.
+GenericName=Game Studio
+Exec=/usr/bin/proizvo-editor %U
+Terminal=false
+Icon=proizvo-editor
+Type=Application
+Categories=Development;
+Actions=new-game;
+Keywords=proizvo;
+
+[NewGame Shortcut Group]
+Name=New Game
+Exec=/usr/bin/proizvo-editor --new
+TargetEnvironment=Unity
+
+[Desktop Action new-game]
+Name=New Game
+Exec=/usr/bin/proizvo-editor --new
+Icon=proizvo-editor

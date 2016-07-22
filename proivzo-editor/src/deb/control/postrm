@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+# Unlink
+rm /usr/bin/proizvo-editor

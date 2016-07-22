@@ -909,12 +909,17 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void contentsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentsMenuItemActionPerformed
         try {
+            boolean isDeskOk = Desktop.isDesktopSupported();
+            if (!isDeskOk) {
+                // TODO: Handle this!
+                return;
+            }
             Desktop desk = Desktop.getDesktop();
             Weblet r = new Resource(getClass(), "help");
-    		Wiki wiki = new Wiki(r);
-    		ExecutorService pool = Executors.newCachedThreadPool();
-    		pool.submit(wiki);
-    		Thread.sleep(100);
+            Wiki wiki = new Wiki(r);
+            ExecutorService pool = Executors.newCachedThreadPool();
+            pool.submit(wiki);
+            Thread.sleep(100);
             desk.browse(wiki.getEndpoint());
         } catch (Exception ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -942,7 +947,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_miPublishProjActionPerformed
 
     private void btnChoosePubStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChoosePubStorageActionPerformed
-         if (chooseProjFolder.showOpenDialog(this) != JOptionPane.OK_OPTION) {
+        if (chooseProjFolder.showOpenDialog(this) != JOptionPane.OK_OPTION) {
             return;
         }
         File pubFolder = chooseProjFolder.getSelectedFile();
