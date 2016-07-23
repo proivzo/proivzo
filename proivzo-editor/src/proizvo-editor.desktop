@@ -11,11 +11,6 @@ Categories=Development;
 Actions=new-game;
 Keywords=proizvo;
 
-[NewGame Shortcut Group]
-Name=New Game
-Exec=/usr/bin/proizvo-editor --new
-TargetEnvironment=Unity
-
 [Desktop Action new-game]
 Name=New Game
 Exec=/usr/bin/proizvo-editor --new
