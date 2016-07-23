@@ -195,6 +195,8 @@
                                 <mapping>
                                     <directory>${linux.dir}/bin</directory>
                                     <filemode>755</filemode>
+                                    <username>root</username>
+                                    <groupname>root</groupname>
                                     <sources>
                                         <source>
                                             <location>${project.build.directory}/../src/${project.artifactId}.sh</location>
@@ -204,7 +206,9 @@
                                 </mapping>
                                 <mapping>
                                     <directory>${linux.dir}/lib</directory>
-                                    <filemode>444</filemode>
+                                    <filemode>755</filemode>
+                                    <username>root</username>
+                                    <groupname>root</groupname>
                                     <sources>
                                         <source>
                                             <location>${project.build.directory}/${project.build.finalName}-single.jar</location>
@@ -214,7 +218,9 @@
                                 </mapping>
                                 <mapping>
                                     <directory>/usr/share/applications</directory>
-                                    <filemode>444</filemode>
+                                    <filemode>755</filemode>
+                                    <username>root</username>
+                                    <groupname>root</groupname>
                                     <sources>
                                         <source>
                                             <location>${project.build.directory}/../src/${project.artifactId}.desktop</location>
@@ -224,7 +230,9 @@
                                 </mapping>
                                 <mapping>
                                     <directory>/usr/share/pixmaps</directory>
-                                    <filemode>444</filemode>
+                                    <filemode>755</filemode>
+                                    <username>root</username>
+                                    <groupname>root</groupname>
                                     <sources>
                                         <source>
                                             <location>res/app_icon.xpm</location>
@@ -234,7 +242,9 @@
                                 </mapping>
                                 <mapping>
                                     <directory>${linuxDoc.dir}</directory>
-                                    <filemode>444</filemode>
+                                    <filemode>755</filemode>
+                                    <username>root</username>
+                                    <groupname>root</groupname>
                                     <sources>
                                         <source>
                                             <location>${project.build.directory}/../../LICENSE</location>
@@ -244,7 +254,9 @@
                                 </mapping>
                                 <mapping>
                                     <directory>${linuxDoc.dir}</directory>
-                                    <filemode>444</filemode>
+                                    <filemode>755</filemode>
+                                    <username>root</username>
+                                    <groupname>root</groupname>
                                     <sources>
                                         <source>
                                             <location>${project.build.directory}/../src/changelog.gz</location>
