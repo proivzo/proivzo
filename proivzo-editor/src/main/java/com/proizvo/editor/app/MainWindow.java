@@ -14,30 +14,29 @@ import com.proizvo.editor.impl.RPGMakerMVProj;
 import com.proizvo.editor.tiles.TilePanel;
 import com.proizvo.editor.ui.PluginManagerDialog;
 import com.proizvo.editor.util.Strings;
+import com.proizvo.editor.util.Threads;
+import com.proizvo.editor.util.Threads.Action;
 import com.proizvo.editor.view.EventIconPanel;
 import com.proizvo.editor.view.MapNode;
 import com.proizvo.editor.view.TileIconPanel;
 import com.xafero.sew.Wiki;
-import com.xafero.sew.api.Weblet;
-import com.xafero.sew.impl.Resource;
 
 import java.awt.Desktop;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import java.awt.event.WindowEvent;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JTree;
 import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -908,22 +907,44 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_mapTreeValueChanged
 
     private void contentsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentsMenuItemActionPerformed
-        try {
-            boolean isDeskOk = Desktop.isDesktopSupported();
-            if (!isDeskOk) {
-                // TODO: Handle this!
-                return;
-            }
-            Desktop desk = Desktop.getDesktop();
-            Weblet r = new Resource(getClass(), "help");
-            Wiki wiki = new Wiki(r);
-            ExecutorService pool = Executors.newCachedThreadPool();
-            pool.submit(wiki);
-            Thread.sleep(100);
-            desk.browse(wiki.getEndpoint());
-        } catch (Exception ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        boolean isDeskOk = Desktop.isDesktopSupported();
+        if (!isDeskOk) {
+            JOptionPane.showMessageDialog(this, "Can't use desktop environment!",
+                    "Fatal error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+        int delay = 0;
+        final Environment env = Environment.getInstance();
+        if (env.noWiki()) {
+            delay = 100;
+            Threads.executeSwing(new Callable<Wiki>() {
+                @Override
+                public Wiki call() throws Exception {
+                    Wiki wiki = env.getWiki();
+                    wiki.run();
+                    return wiki;
+                }
+            }, new Action<Wiki>() {
+                @Override
+                public void call(Wiki obj) throws Exception {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.INFO,
+                            "Wiki created: {0}", obj.getClass().getName());
+                }
+            });
+        }
+        Threads.executeOnce(delay, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    Environment env = Environment.getInstance();
+                    Wiki wiki = env.getWiki();
+                    Desktop desk = Desktop.getDesktop();
+                    desk.browse(wiki.getEndpoint());
+                } catch (IOException ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
     }//GEN-LAST:event_contentsMenuItemActionPerformed
 
     private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed

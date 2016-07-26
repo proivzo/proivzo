@@ -2,6 +2,8 @@ package com.proizvo.editor.app;
 
 import com.google.gson.Gson;
 import com.proizvo.editor.api.IProject;
+import com.xafero.sew.Wiki;
+import com.xafero.sew.impl.Resource;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -23,6 +25,16 @@ public class Environment {
 
     public static synchronized Environment getInstance() {
         return instance == null ? (instance = new Environment()) : instance;
+    }
+
+    private Wiki wiki;
+
+    public boolean noWiki() {
+        return wiki == null;
+    }
+
+    public Wiki getWiki() {
+        return noWiki() ? (wiki = new Wiki(new Resource(getClass(), "help"))) : wiki;
     }
 
     private IProject current;
