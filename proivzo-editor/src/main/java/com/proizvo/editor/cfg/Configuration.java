@@ -36,7 +36,7 @@ public class Configuration {
         try {
             return new File(FileUtils.readFileToString(lastLocation, encoding));
         } catch (IOException ex) {
-            Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Configuration.class.getName()).log(Level.WARNING, ex.getMessage());
             return null;
         }
     }
