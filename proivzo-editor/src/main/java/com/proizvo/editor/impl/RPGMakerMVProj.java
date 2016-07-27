@@ -10,6 +10,7 @@ import com.proizvo.editor.data.Maps;
 import com.proizvo.editor.data.Map;
 import com.proizvo.editor.data.Tilesets;
 import com.proizvo.editor.tiles.TileSetImage;
+import com.proizvo.editor.util.Files;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
@@ -76,7 +77,7 @@ public class RPGMakerMVProj implements IProject {
     }
 
     public Map getMap(String name) throws IOException {
-        try (FileReader in = new FileReader(new File(projectBase,
+        try (FileReader in = new FileReader(Files.find(projectBase,
                 "data/" + name + ".json"))) {
             return json.fromJson(in, Map.class);
         }

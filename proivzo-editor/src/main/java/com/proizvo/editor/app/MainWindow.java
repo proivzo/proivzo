@@ -1119,8 +1119,10 @@ public class MainWindow extends javax.swing.JFrame {
             setIconImage(Toolkit.getDefaultToolkit().getImage(proj.getIcon()));
             updateProjectTree(proj);
         } catch (IOException ioe) {
-            JOptionPane.showMessageDialog(this, "Could not read '" + prjFile + "'!",
+            String msg = "Could not read '" + prjFile + "'!";
+            JOptionPane.showMessageDialog(this, msg,
                     "Input/Output error", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, msg, ioe);
         }
     }
 
