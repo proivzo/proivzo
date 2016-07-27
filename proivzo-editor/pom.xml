@@ -281,7 +281,7 @@
                 <!-- For Microsoft Windows bundling -->            
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
-                <version>1.7.10</version>
+                <version>1.7.11</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -290,11 +290,11 @@
                         </goals>
                         <configuration>
                             <headerType>gui</headerType>
+                            <jar>${project.build.directory}/${project.build.finalName}-single.jar</jar>
                             <outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
                             <classPath>
                                 <mainClass>${exe.class}</mainClass>
-                                <!-- <addDependencies>false</addDependencies> -->
-                                <!-- <preCp>anything</preCp> -->
+                                <addDependencies>true</addDependencies>
                             </classPath>
                             <jre>
                                 <minVersion>${maven.compiler.source}.0</minVersion>
