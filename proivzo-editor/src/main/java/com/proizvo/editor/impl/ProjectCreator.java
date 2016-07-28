@@ -64,6 +64,9 @@ public class ProjectCreator {
             File titles2 = Files.mkdir(img, "titles2");
             File js = Files.mkdir(projDir, "js");
             File libs = Files.mkdir(js, "libs");
+            copyRes(templ + "pixi.min.js", new File(libs, "pixi.js"));
+            copyRes(templ + "lz-string.min.js", new File(libs, "lz-string.js"));
+            copyRes(templ + "fpsmeter.min.js", new File(libs, "fpsmeter.js"));
             File plugins = Files.mkdir(js, "plugins");
             File movies = Files.mkdir(projDir, "movies");
             return new RPGMakerMVProj(gpf);

@@ -12,3 +12,43 @@ http://mplus-fonts.sourceforge.jp/mplus-outline-fonts/
 
 See also
 https://github.com/chrissimpkins/codeface/tree/master/fonts/mplus1m
+
+==========================================================================
+
+pixi.js - v3.0.10
+ *
+ * pixi.js is licensed under the MIT License.
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ *
+ * The MIT License
+ * 
+ * Copyright (c) 2013-2015 Mathew Groves
+
+
+
+See also
+https://github.com/pixijs/pixi.js
+
+==========================================================================
+
+lz-string
+
+LZ-based compression algorithm for JavaScript
+
+This software is copyrighted to Pieroxy (2013) and all 
+versions are currently licensed under the very popular WTFPL.
+
+
+
+See also
+https://github.com/pieroxy/lz-string
+
+==========================================================================
+
+fpsmeter - Version 0.3.1 - License: MIT
+
+
+
+See also
+https://github.com/darsain/fpsmeter
