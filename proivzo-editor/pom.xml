@@ -82,6 +82,12 @@
             <artifactId>sew</artifactId>
             <version>9c0e1debf8</version>
         </dependency>
+        <!-- For XHTML -->
+        <dependency>
+            <groupId>org.dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>2.0.0</version>
+        </dependency>
     </dependencies>
 
     <repositories>
