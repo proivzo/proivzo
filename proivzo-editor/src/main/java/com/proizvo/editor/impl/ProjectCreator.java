@@ -1,18 +1,25 @@
 package com.proizvo.editor.impl;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.dom.DOMDocumentType;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-
+import com.helger.css.decl.CSSDeclaration;
+import com.helger.css.decl.CSSExpression;
+import com.helger.css.decl.CSSFontFaceRule;
+import com.helger.css.decl.CascadingStyleSheet;
+import com.helger.css.writer.CSSWriter;
 import com.proizvo.editor.api.IProject;
 import com.proizvo.editor.util.Files;
 
@@ -21,6 +28,7 @@ public class ProjectCreator {
     public static IProject createNew(String gameTitle, String projectName,
             String storageLocation) {
         try {
+            String templ = "template/";
             File projDir = new File(storageLocation, projectName);
             projDir.mkdir();
             String encoding = "UTF8";
@@ -35,7 +43,10 @@ public class ProjectCreator {
             File se = Files.mkdir(audio, "se");
             File data = Files.mkdir(projDir, "data");
             File fonts = Files.mkdir(projDir, "fonts");
+            writeFontsCSS(new File(fonts, "gamefont.css"));
+            copyRes(templ + "game.ttf", new File(fonts, "mplus-1m-regular.ttf"));
             File icon = Files.mkdir(projDir, "icon");
+            copyRes(templ + "proj_icon.png", new File(icon, "icon.png"));
             File img = Files.mkdir(projDir, "img");
             File animations = Files.mkdir(img, "animations");
             File battlebacks1 = Files.mkdir(img, "battlebacks1");
@@ -130,5 +141,37 @@ public class ProjectCreator {
         script.addAttribute("type", "text/javascript");
         script.addAttribute("src", path);
         return script;
+    }
+
+    private static void copyRes(String src, File dest) {
+        copyRes(ProjectCreator.class, src, dest);
+    }
+
+    private static void copyRes(Class<?> clazz, String src, File dest) {
+        copyRes(clazz.getClassLoader(), src, dest);
+    }
+
+    private static void copyRes(ClassLoader loader, String src, File dest) {
+        try (InputStream in = loader.getResourceAsStream(src)) {
+            try (FileOutputStream out = new FileOutputStream(dest)) {
+                IOUtils.copy(in, out);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Could not read resource!", e);
+        }
+    }
+
+    private static void writeFontsCSS(File dest) throws IOException {
+        CascadingStyleSheet css = new CascadingStyleSheet();
+        CSSFontFaceRule ffr = new CSSFontFaceRule();
+        ffr.addDeclaration(new CSSDeclaration("font-family",
+                CSSExpression.createSimple("GameFont")));
+        ffr.addDeclaration(new CSSDeclaration("src",
+                CSSExpression.createURI("mplus-1m-regular.ttf")));
+        css.addRule(ffr);
+        CSSWriter writer = new CSSWriter();
+        try (FileWriter out = new FileWriter(dest)) {
+            writer.writeCSS(css, out);
+        }
     }
 }
