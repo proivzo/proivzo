@@ -16,4 +16,10 @@ public class Files {
         }
         return file;
     }
+
+    public static File mkdir(File root, String path) {
+        File dir = new File(root, path);
+        dir.mkdir();
+        return dir;
+    }
 }

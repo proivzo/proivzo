@@ -10,6 +10,7 @@ import com.proizvo.editor.cfg.Configuration;
 import com.proizvo.editor.data.Map;
 import com.proizvo.editor.data.MapInfo;
 import com.proizvo.editor.data.Tileset;
+import com.proizvo.editor.impl.ProjectCreator;
 import com.proizvo.editor.impl.RPGMakerMVProj;
 import com.proizvo.editor.tiles.TilePanel;
 import com.proizvo.editor.ui.PluginManagerDialog;
@@ -27,7 +28,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+
 import javax.swing.JOptionPane;
+
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -36,6 +39,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.UIManager;
@@ -43,6 +47,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
+
+import static com.proizvo.editor.impl.ProjectCreator.*;
 
 /**
  *
@@ -850,7 +856,11 @@ public class MainWindow extends javax.swing.JFrame {
                 != JOptionPane.OK_OPTION) {
             return;
         }
-        JOptionPane.showMessageDialog(this, "FUCK YOU!");
+        String gameName = tfGameTitle.getText();
+        String projName = tfProjectName.getText();
+        String projLoc = tfStorageLoc.getText();
+        IProject proj = createNew(gameName, projName, projLoc);
+        openProject(new File(proj.getProjectFile()));
     }//GEN-LAST:event_miNewProjActionPerformed
 
     private void btnChooseStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseStorageActionPerformed
