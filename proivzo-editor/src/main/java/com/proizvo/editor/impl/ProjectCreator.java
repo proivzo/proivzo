@@ -39,6 +39,8 @@ import com.proizvo.editor.data.Map;
 import com.proizvo.editor.data.MapInfo;
 import com.proizvo.editor.data.MapInfos;
 import com.proizvo.editor.data.Trait;
+import com.proizvo.editor.data.Weapon;
+import com.proizvo.editor.data.Weapons;
 import com.proizvo.editor.util.Files;
 
 import static com.proizvo.editor.util.Lists.*;
@@ -77,6 +79,7 @@ public class ProjectCreator {
             newJson(newArmors(), new File(data, "Armors.json"));
             newJson(newActors(), new File(data, "Actors.json"));
             newJson(newCommons(), new File(data, "CommonEvents.json"));
+            newJson(newWeapons(), new File(data, "Weapons.json"));
             File fonts = Files.mkdir(projDir, "fonts");
             writeFontsCSS(new File(fonts, "gamefont.css"));
             copyRes(templ + "game.ttf", new File(fonts, "mplus-1m-regular.ttf"));
@@ -410,5 +413,63 @@ public class ProjectCreator {
         a.setProfile("");
         acts.add(a);
         return acts;
+    }
+
+    private static Weapons newWeapons() {
+        Weapons ws = new Weapons();
+        ws.add(null);
+        Weapon w = new Weapon();
+        w.setId(1);
+        w.setAnimationId(6);
+        w.setDescription("");
+        w.setEtypeId(1);
+        w.setTraits(new Trait(31, 1, 0), new Trait(22, 0, 0));
+        w.setIconIndex(97);
+        w.setName(texts.getString("weapon1name"));
+        w.setNote("");
+        w.setParams(new int[]{0, 0, 10, 0, 0, 0, 0, 0});
+        w.setPrice(500);
+        w.setWtypeId(2);
+        ws.add(w);
+        w = new Weapon();
+        w.setId(2);
+        w.setAnimationId(6);
+        w.setDescription("");
+        w.setEtypeId(1);
+        w.setTraits(new Trait(31, 1, 0), new Trait(22, 0, 0));
+        w.setIconIndex(99);
+        w.setName(texts.getString("weapon2name"));
+        w.setNote("");
+        w.setParams(new int[]{0, 0, 10, 0, 0, 0, 0, 0});
+        w.setPrice(500);
+        w.setWtypeId(4);
+        ws.add(w);
+        w = new Weapon();
+        w.setId(3);
+        w.setAnimationId(1);
+        w.setDescription("");
+        w.setEtypeId(1);
+        w.setTraits(new Trait(31, 1, 0), new Trait(22, 0, 0));
+        w.setIconIndex(101);
+        w.setName(texts.getString("weapon3name"));
+        w.setNote("");
+        w.setParams(new int[]{0, 0, 10, 0, 0, 0, 0, 0});
+        w.setPrice(500);
+        w.setWtypeId(6);
+        ws.add(w);
+        w = new Weapon();
+        w.setId(4);
+        w.setAnimationId(11);
+        w.setDescription("");
+        w.setEtypeId(1);
+        w.setTraits(new Trait(31, 1, 0), new Trait(22, 0, 0));
+        w.setIconIndex(102);
+        w.setName(texts.getString("weapon4name"));
+        w.setNote("");
+        w.setParams(new int[]{0, 0, 10, 0, 0, 0, 0, 0});
+        w.setPrice(500);
+        w.setWtypeId(7);
+        ws.add(w);
+        return ws;
     }
 }
