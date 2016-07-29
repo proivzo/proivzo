@@ -166,7 +166,7 @@ public class ProjectCreator {
         a.setTraits(new Trait(22, 1, 0));
         a.setIconIndex(145);
         a.setNote("");
-        a.setParams(new int[]{0, 0, 0, 10, 0, 0, 0, 0});
+        a.setParams(new int[]{0, 0, 0, 0, 10, 0, 0, 0});
         a.setPrice(300);
         as.add(a);
         return as;
