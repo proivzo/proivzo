@@ -110,9 +110,35 @@
             <url>https://jitpack.io</url>
         </repository>
     </repositories>
-        
+
+    <pluginRepositories>
+        <!-- For TypeScript support -->
+        <pluginRepository>
+            <id>typescript-maven-plugin</id>
+            <url>https://raw.github.com/husaft/typescript-maven-plugin/master/repo</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <build>
         <plugins>
+            <plugin>
+                <!-- For TypeScript generation -->
+                <groupId>com.ppedregal.typescript</groupId>
+                <artifactId>typescript-maven-plugin</artifactId>
+                <version>0.0.1-SNAPSHOT</version>   
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>tsc</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirectory>src/main/ts</sourceDirectory>
+                            <targetDirectory>src/main/resources/template/code</targetDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <!-- For other Operating Systems -->
                 <groupId>org.apache.maven.plugins</groupId>
