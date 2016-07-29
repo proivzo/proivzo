@@ -20,3 +20,6 @@ hs_err_pid*
 # Testing
 tmpI/
 tmpO/
+
+# Ignore
+code/
