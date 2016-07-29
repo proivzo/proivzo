@@ -1,5 +1,7 @@
 package com.proizvo.editor.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -21,7 +23,11 @@ import com.helger.css.decl.CSSFontFaceRule;
 import com.helger.css.decl.CascadingStyleSheet;
 import com.helger.css.writer.CSSWriter;
 import com.proizvo.editor.api.IProject;
+import com.proizvo.editor.data.MapInfo;
+import com.proizvo.editor.data.MapInfos;
 import com.proizvo.editor.util.Files;
+
+import static com.proizvo.editor.util.Lists.*;
 
 public class ProjectCreator {
 
@@ -29,6 +35,7 @@ public class ProjectCreator {
             String storageLocation) {
         try {
             String templ = "template/";
+            String tcode = templ + "code/";
             File projDir = new File(storageLocation, projectName);
             projDir.mkdir();
             String encoding = "UTF8";
@@ -42,6 +49,8 @@ public class ProjectCreator {
             File me = Files.mkdir(audio, "me");
             File se = Files.mkdir(audio, "se");
             File data = Files.mkdir(projDir, "data");
+            newJson(insert(new MapInfos(), null, new MapInfo(1, false, "MAP001", 1, 0,
+                    411.5, 334)), new File(data, "MapInfos.json"));
             File fonts = Files.mkdir(projDir, "fonts");
             writeFontsCSS(new File(fonts, "gamefont.css"));
             copyRes(templ + "game.ttf", new File(fonts, "mplus-1m-regular.ttf"));
@@ -63,6 +72,14 @@ public class ProjectCreator {
             File titles1 = Files.mkdir(img, "titles1");
             File titles2 = Files.mkdir(img, "titles2");
             File js = Files.mkdir(projDir, "js");
+            copyRes(tcode + "main.js", new File(js, "main.js"));
+            copyRes(tcode + "plugins.js", new File(js, "plugins.js"));
+            copyRes(tcode + "rpg_core.js", new File(js, "rpg_core.js"));
+            copyRes(tcode + "rpg_managers.js", new File(js, "rpg_managers.js"));
+            copyRes(tcode + "rpg_objects.js", new File(js, "rpg_objects.js"));
+            copyRes(tcode + "rpg_scenes.js", new File(js, "rpg_scenes.js"));
+            copyRes(tcode + "rpg_sprites.js", new File(js, "rpg_sprites.js"));
+            copyRes(tcode + "rpg_windows.js", new File(js, "rpg_windows.js"));
             File libs = Files.mkdir(js, "libs");
             copyRes(templ + "pixi.min.js", new File(libs, "pixi.js"));
             copyRes(templ + "lz-string.min.js", new File(libs, "lz-string.js"));
@@ -176,5 +193,10 @@ public class ProjectCreator {
         try (FileWriter out = new FileWriter(dest)) {
             writer.writeCSS(css, out);
         }
+    }
+
+    private static void newJson(Object obj, File file) throws IOException {
+        Gson json = (new GsonBuilder()).setPrettyPrinting().create();
+        FileUtils.write(file, json.toJson(obj), "UTF-8");
     }
 }
