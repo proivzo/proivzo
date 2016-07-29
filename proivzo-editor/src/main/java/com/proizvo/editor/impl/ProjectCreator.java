@@ -2,12 +2,15 @@ package com.proizvo.editor.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -17,19 +20,33 @@ import org.dom4j.Element;
 import org.dom4j.dom.DOMDocumentType;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
+
 import com.helger.css.decl.CSSDeclaration;
 import com.helger.css.decl.CSSExpression;
 import com.helger.css.decl.CSSFontFaceRule;
 import com.helger.css.decl.CascadingStyleSheet;
 import com.helger.css.writer.CSSWriter;
 import com.proizvo.editor.api.IProject;
+import com.proizvo.editor.data.Armor;
+import com.proizvo.editor.data.Armors;
+import com.proizvo.editor.data.Bgm;
+import com.proizvo.editor.data.Map;
 import com.proizvo.editor.data.MapInfo;
 import com.proizvo.editor.data.MapInfos;
+import com.proizvo.editor.data.Trait;
 import com.proizvo.editor.util.Files;
 
 import static com.proizvo.editor.util.Lists.*;
 
 public class ProjectCreator {
+
+    private static final Locale locale;
+    private static final ResourceBundle texts;
+
+    static {
+        locale = new Locale("de", "DE");
+        texts = ResourceBundle.getBundle("TextBundle", locale);
+    }
 
     public static IProject createNew(String gameTitle, String projectName,
             String storageLocation) {
@@ -51,6 +68,8 @@ public class ProjectCreator {
             File data = Files.mkdir(projDir, "data");
             newJson(insert(new MapInfos(), null, new MapInfo(1, false, "MAP001", 1, 0,
                     411.5, 334)), new File(data, "MapInfos.json"));
+            newJson(newStdMap(), new File(data, "Map001.json"));
+            newJson(newArmors(), new File(data, "Armors.json"));
             File fonts = Files.mkdir(projDir, "fonts");
             writeFontsCSS(new File(fonts, "gamefont.css"));
             copyRes(templ + "game.ttf", new File(fonts, "mplus-1m-regular.ttf"));
@@ -90,6 +109,88 @@ public class ProjectCreator {
         } catch (IOException e) {
             throw new RuntimeException("Could not create project!", e);
         }
+    }
+
+    private static Armors newArmors() {
+        Armors as = new Armors();
+        as.add(null);
+        Armor a = new Armor();
+        a.setId(1);
+        a.setName(texts.getString("armor1name"));
+        a.setAtypeId(5);
+        a.setDescription("");
+        a.setEtypeId(2);
+        a.setIconIndex(128);
+        a.setNote("");
+        a.setParams(new int[]{0, 0, 0, 10, 0, 0, 0, 0});
+        a.setPrice(300);
+        a.setTraits(new Trait(22, 1, 0));
+        as.add(a);
+        a = new Armor();
+        a.setId(2);
+        a.setName(texts.getString("armor2name"));
+        a.setAtypeId(1);
+        a.setDescription("");
+        a.setEtypeId(3);
+        a.setTraits(new Trait(22, 1, 0));
+        a.setIconIndex(130);
+        a.setNote("");
+        a.setParams(new int[]{0, 0, 0, 10, 0, 0, 0, 0});
+        a.setPrice(300);
+        as.add(a);
+        a = new Armor();
+        a.setId(3);
+        a.setName(texts.getString("armor3name"));
+        a.setAtypeId(1);
+        a.setDescription("");
+        a.setEtypeId(4);
+        a.setTraits(new Trait(22, 1, 0));
+        a.setIconIndex(135);
+        a.setNote("");
+        a.setParams(new int[]{0, 0, 0, 10, 0, 0, 0, 0});
+        a.setPrice(300);
+        as.add(a);
+        a = new Armor();
+        a.setId(4);
+        a.setName(texts.getString("armor4name"));
+        a.setAtypeId(1);
+        a.setDescription("");
+        a.setEtypeId(5);
+        a.setTraits(new Trait(22, 1, 0));
+        a.setIconIndex(145);
+        a.setNote("");
+        a.setParams(new int[]{0, 0, 0, 10, 0, 0, 0, 0});
+        a.setPrice(300);
+        as.add(a);
+        return as;
+    }
+
+    private static Map newStdMap() {
+        Map map = new Map();
+        map.setBattleback1Name("");
+        map.setBattleback2Name("");
+        map.setEvents(new String[]{null, null});
+        map.setBgm(new Bgm("", 0, 100, 90));
+        map.setBgs(new Bgm("", 0, 100, 90));
+        map.setDisplayName("");
+        map.setEncounterList(new String[0]);
+        map.setEncounterStep(30);
+        map.setNote("");
+        map.setParallaxName("");
+        map.setParallaxShow(true);
+        map.setTilesetId(1);
+        int h, w;
+        map.setHeight(h = 13);
+        map.setWidth(w = 17);
+        int[] data = new int[(h * w) * 6];
+        for (int i = 0; i < (h * w); i++) {
+            data[i] = 2816;
+        }
+        for (int i = 0; i < ((h * w) * 5); i++) {
+            data[(h * w) + i] = 0;
+        }
+        map.setData(data);
+        return map;
     }
 
     private static void write(Document doc, File file) {
@@ -196,7 +297,7 @@ public class ProjectCreator {
     }
 
     private static void newJson(Object obj, File file) throws IOException {
-        Gson json = (new GsonBuilder()).setPrettyPrinting().create();
+        Gson json = (new GsonBuilder())/*.setPrettyPrinting()*/.create();
         FileUtils.write(file, json.toJson(obj), "UTF-8");
     }
 }

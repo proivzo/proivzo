@@ -46,4 +46,64 @@ public class Map {
     public String getDisplayName() {
         return displayName;
     }
+
+    public void setBattleback1Name(String battleback1Name) {
+        this.battleback1Name = battleback1Name;
+    }
+
+    public void setBattleback2Name(String battleback2Name) {
+        this.battleback2Name = battleback2Name;
+    }
+
+    public void setEvents(String[] events) {
+        this.events = events;
+    }
+
+    public void setBgm(Bgm bgm) {
+        this.bgm = bgm;
+    }
+
+    public void setBgs(Bgm bgs) {
+        this.bgs = bgs;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setEncounterList(String[] encounterList) {
+        this.encounterList = encounterList;
+    }
+
+    public void setEncounterStep(int encounterStep) {
+        this.encounterStep = encounterStep;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public void setParallaxName(String parallaxName) {
+        this.parallaxName = parallaxName;
+    }
+
+    public void setParallaxShow(boolean parallaxShow) {
+        this.parallaxShow = parallaxShow;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setTilesetId(int tilesetId) {
+        this.tilesetId = tilesetId;
+    }
+
+    public void setData(int[] data) {
+        this.data = data;
+    }
 }
