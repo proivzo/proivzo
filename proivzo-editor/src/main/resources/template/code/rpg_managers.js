@@ -1,0 +1,2 @@
+var database = '';
+var game = '';
