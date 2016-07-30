@@ -44,7 +44,11 @@ import com.proizvo.editor.data.Trait;
 import com.proizvo.editor.data.Weapon;
 import com.proizvo.editor.data.Weapons;
 import com.proizvo.editor.data.Action;
+import com.proizvo.editor.data.Damage;
 import com.proizvo.editor.data.DropItem;
+import com.proizvo.editor.data.Effect;
+import com.proizvo.editor.data.Item;
+import com.proizvo.editor.data.Items;
 import com.proizvo.editor.util.Files;
 
 import static com.proizvo.editor.util.Lists.*;
@@ -85,6 +89,7 @@ public class ProjectCreator {
             newJson(newCommons(), new File(data, "CommonEvents.json"));
             newJson(newWeapons(), new File(data, "Weapons.json"));
             newJson(newEnemies(), new File(data, "Enemies.json"));
+            newJson(newItems(), new File(data, "Items.json"));
             File fonts = Files.mkdir(projDir, "fonts");
             writeFontsCSS(new File(fonts, "gamefont.css"));
             copyRes(templ + "game.ttf", new File(fonts, "mplus-1m-regular.ttf"));
@@ -534,5 +539,78 @@ public class ProjectCreator {
         e.setParams(new int[]{500, 0, 30, 30, 30, 30, 30, 30});
         es.add(e);
         return es;
+    }
+
+    private static Items newItems() {
+        Items is = new Items();
+        is.add(null);
+        Item it = new Item();
+        it.setId(1);
+        it.setName(texts.getString("item1name"));
+        it.setAnimationId(41);
+        it.setConsumable(true);
+        it.setDescription("");
+        it.setIconIndex(176);
+        it.setItypeId(1);
+        it.setNote("");
+        it.setPrice(50);
+        it.setRepeats(1);
+        it.setScope(7);
+        it.setSuccessRate(100);
+        it.setDamage(new Damage(false, 0, "0", 0, 20));
+        it.setEffects(new Effect(11, 0, 0, 500));
+        is.add(it);
+        it = new Item();
+        it.setId(2);
+        it.setName(texts.getString("item2name"));
+        it.setAnimationId(41);
+        it.setConsumable(true);
+        it.setDescription("");
+        it.setIconIndex(176);
+        it.setItypeId(1);
+        it.setNote("");
+        it.setPrice(100);
+        it.setRepeats(1);
+        it.setScope(7);
+        it.setSuccessRate(100);
+        it.setDamage(new Damage(false, 0, "0", 0, 20));
+        it.setEffects(new Effect(12, 0, 0, 200));
+        is.add(it);
+        it = new Item();
+        it.setId(3);
+        it.setName(texts.getString("item3name"));
+        it.setAnimationId(45);
+        it.setConsumable(true);
+        it.setDescription("");
+        it.setIconIndex(176);
+        it.setItypeId(1);
+        it.setNote("");
+        it.setPrice(200);
+        it.setRepeats(1);
+        it.setScope(7);
+        it.setSuccessRate(100);
+        it.setDamage(new Damage(false, 0, "0", 0, 20));
+        it.setEffects(new Effect(22, 4, 1, 0),
+                new Effect(22, 5, 1, 0), new Effect(22, 6, 1, 0),
+                new Effect(22, 7, 1, 0), new Effect(22, 8, 1, 0),
+                new Effect(22, 9, 1, 0), new Effect(22, 10, 1, 0));
+        is.add(it);
+        it = new Item();
+        it.setId(4);
+        it.setName(texts.getString("item4name"));
+        it.setIconIndex(176);
+        it.setItypeId(1);
+        it.setNote("");
+        it.setPrice(300);
+        it.setRepeats(1);
+        it.setScope(9);
+        it.setSuccessRate(100);
+        it.setAnimationId(49);
+        it.setConsumable(true);
+        it.setDescription("");
+        it.setDamage(new Damage(false, 0, "b.mhp / 2", 3, 20));
+        it.setEffects(new Effect(22, 1, 1, 0));
+        is.add(it);
+        return is;
     }
 }
