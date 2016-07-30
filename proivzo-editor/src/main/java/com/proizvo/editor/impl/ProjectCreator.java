@@ -34,6 +34,8 @@ import com.proizvo.editor.data.Armors;
 import com.proizvo.editor.data.Bgm;
 import com.proizvo.editor.data.CommonEvent;
 import com.proizvo.editor.data.CommonEvents;
+import com.proizvo.editor.data.Enemies;
+import com.proizvo.editor.data.Enemy;
 import com.proizvo.editor.data.Event;
 import com.proizvo.editor.data.Map;
 import com.proizvo.editor.data.MapInfo;
@@ -41,6 +43,8 @@ import com.proizvo.editor.data.MapInfos;
 import com.proizvo.editor.data.Trait;
 import com.proizvo.editor.data.Weapon;
 import com.proizvo.editor.data.Weapons;
+import com.proizvo.editor.data.Action;
+import com.proizvo.editor.data.DropItem;
 import com.proizvo.editor.util.Files;
 
 import static com.proizvo.editor.util.Lists.*;
@@ -80,6 +84,7 @@ public class ProjectCreator {
             newJson(newActors(), new File(data, "Actors.json"));
             newJson(newCommons(), new File(data, "CommonEvents.json"));
             newJson(newWeapons(), new File(data, "Weapons.json"));
+            newJson(newEnemies(), new File(data, "Enemies.json"));
             File fonts = Files.mkdir(projDir, "fonts");
             writeFontsCSS(new File(fonts, "gamefont.css"));
             copyRes(templ + "game.ttf", new File(fonts, "mplus-1m-regular.ttf"));
@@ -471,5 +476,63 @@ public class ProjectCreator {
         w.setWtypeId(7);
         ws.add(w);
         return ws;
+    }
+
+    private static Enemies newEnemies() {
+        Enemies es = new Enemies();
+        es.add(null);
+        Enemy e = new Enemy();
+        e.setId(1);
+        e.setName(texts.getString("enemy1name"));
+        e.setActions(new Action(0, 0, 0, 5, 1));
+        e.setBattlerName("Bat");
+        e.setDropItems(new DropItem(1, 1, 0),
+                new DropItem(1, 1, 0), new DropItem(1, 1, 0));
+        e.setTraits(new Trait(22, 0, 0.95), new Trait(22, 1, 0.05),
+                new Trait(31, 1, 0));
+        e.setGold(0);
+        e.setNote("");
+        e.setParams(new int[]{200, 0, 30, 30, 30, 30, 30, 30});
+        es.add(e);
+        e = new Enemy();
+        e.setId(2);
+        e.setName(texts.getString("enemy2name"));
+        e.setActions(new Action(0, 0, 0, 5, 1));
+        e.setBattlerName("Slime");
+        e.setDropItems(new DropItem(1, 1, 0),
+                new DropItem(1, 1, 0), new DropItem(1, 1, 0));
+        e.setTraits(new Trait(22, 0, 0.95), new Trait(22, 1, 0.05),
+                new Trait(31, 1, 0));
+        e.setGold(0);
+        e.setNote("");
+        e.setParams(new int[]{250, 0, 30, 30, 30, 30, 30, 30});
+        es.add(e);
+        e = new Enemy();
+        e.setId(3);
+        e.setName(texts.getString("enemy3name"));
+        e.setActions(new Action(0, 0, 0, 5, 1));
+        e.setBattlerName("Orc");
+        e.setDropItems(new DropItem(1, 1, 0),
+                new DropItem(1, 1, 0), new DropItem(1, 1, 0));
+        e.setTraits(new Trait(22, 0, 0.95), new Trait(22, 1, 0.05),
+                new Trait(31, 1, 0));
+        e.setGold(0);
+        e.setNote("");
+        e.setParams(new int[]{300, 0, 30, 30, 30, 30, 30, 30});
+        es.add(e);
+        e = new Enemy();
+        e.setId(4);
+        e.setName(texts.getString("enemy4name"));
+        e.setActions(new Action(0, 0, 0, 5, 1));
+        e.setBattlerName("Minotaur");
+        e.setDropItems(new DropItem(1, 1, 0),
+                new DropItem(1, 1, 0), new DropItem(1, 1, 0));
+        e.setTraits(new Trait(22, 0, 0.95), new Trait(22, 1, 0.05),
+                new Trait(31, 1, 0));
+        e.setGold(0);
+        e.setNote("");
+        e.setParams(new int[]{500, 0, 30, 30, 30, 30, 30, 30});
+        es.add(e);
+        return es;
     }
 }

@@ -6,7 +6,7 @@ public class Trait {
     private int dataId;
     private double value;
 
-    public Trait(int code, int dataId, int value) {
+    public Trait(int code, int dataId, double value) {
         this.code = code;
         this.dataId = dataId;
         this.value = value;
