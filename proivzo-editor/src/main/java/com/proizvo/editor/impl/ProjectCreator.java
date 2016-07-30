@@ -44,11 +44,16 @@ import com.proizvo.editor.data.Trait;
 import com.proizvo.editor.data.Weapon;
 import com.proizvo.editor.data.Weapons;
 import com.proizvo.editor.data.Action;
+import com.proizvo.editor.data.Conditions;
 import com.proizvo.editor.data.Damage;
 import com.proizvo.editor.data.DropItem;
 import com.proizvo.editor.data.Effect;
 import com.proizvo.editor.data.Item;
 import com.proizvo.editor.data.Items;
+import com.proizvo.editor.data.Member;
+import com.proizvo.editor.data.Page;
+import com.proizvo.editor.data.Troop;
+import com.proizvo.editor.data.Troops;
 import com.proizvo.editor.util.Files;
 
 import static com.proizvo.editor.util.Lists.*;
@@ -90,6 +95,7 @@ public class ProjectCreator {
             newJson(newWeapons(), new File(data, "Weapons.json"));
             newJson(newEnemies(), new File(data, "Enemies.json"));
             newJson(newItems(), new File(data, "Items.json"));
+            newJson(newTroops(), new File(data, "Troops.json"));
             File fonts = Files.mkdir(projDir, "fonts");
             writeFontsCSS(new File(fonts, "gamefont.css"));
             copyRes(templ + "game.ttf", new File(fonts, "mplus-1m-regular.ttf"));
@@ -539,6 +545,46 @@ public class ProjectCreator {
         e.setParams(new int[]{500, 0, 30, 30, 30, 30, 30, 30});
         es.add(e);
         return es;
+    }
+
+    private static Troops newTroops() {
+        Troops ts = new Troops();
+        ts.add(null);
+        Troop t = new Troop();
+        t.setId(1);
+        t.setMembers(new Member(1, 336, 436, false),
+                new Member(1, 480, 436, false));
+        t.setName(texts.getString("troop1name"));
+        t.setPages(new Page(new Conditions(50, 1, false, 50, 0,
+                false, 1, false, 0, 0, false, false), 0,
+                new Event(0, 0, new int[0])));
+        ts.add(t);
+        t = new Troop();
+        t.setId(2);
+        t.setMembers(new Member(2, 337, 436, false),
+                new Member(2, 480, 436, false));
+        t.setName(texts.getString("troop2name"));
+        t.setPages(new Page(new Conditions(50, 1, false, 50, 0,
+                false, 1, false, 0, 0, false, false), 0,
+                new Event(0, 0, new int[0])));
+        ts.add(t);
+        t = new Troop();
+        t.setId(3);
+        t.setMembers(new Member(3, 408, 436, false));
+        t.setName(texts.getString("troop3name"));
+        t.setPages(new Page(new Conditions(50, 1, false, 50, 0,
+                false, 1, false, 0, 0, false, false), 0,
+                new Event(0, 0, new int[0])));
+        ts.add(t);
+        t = new Troop();
+        t.setId(4);
+        t.setMembers(new Member(4, 408, 436, false));
+        t.setName(texts.getString("troop4name"));
+        t.setPages(new Page(new Conditions(50, 1, false, 50, 0,
+                false, 1, false, 0, 0, false, false), 0,
+                new Event(0, 0, new int[0])));
+        ts.add(t);
+        return ts;
     }
 
     private static Items newItems() {
