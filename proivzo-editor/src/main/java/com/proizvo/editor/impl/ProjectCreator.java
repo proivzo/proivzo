@@ -44,6 +44,9 @@ import com.proizvo.editor.data.Trait;
 import com.proizvo.editor.data.Weapon;
 import com.proizvo.editor.data.Weapons;
 import com.proizvo.editor.data.Action;
+import com.proizvo.editor.data.Airship;
+import com.proizvo.editor.data.AttackMotion;
+import com.proizvo.editor.data.Battler;
 import com.proizvo.editor.data.Conditions;
 import com.proizvo.editor.data.Damage;
 import com.proizvo.editor.data.DropItem;
@@ -54,13 +57,19 @@ import com.proizvo.editor.data.Member;
 import com.proizvo.editor.data.Page;
 import com.proizvo.editor.data.Skill;
 import com.proizvo.editor.data.Skills;
+import com.proizvo.editor.data.Sound;
 import com.proizvo.editor.data.State;
 import com.proizvo.editor.data.States;
+import com.proizvo.editor.data.System;
+import com.proizvo.editor.data.Terms;
 import com.proizvo.editor.data.Troop;
 import com.proizvo.editor.data.Troops;
 import com.proizvo.editor.util.Files;
 
 import static com.proizvo.editor.util.Lists.*;
+import static com.proizvo.editor.util.Strings.*;
+import java.util.Collections;
+import java.util.TreeMap;
 
 public class ProjectCreator {
 
@@ -102,6 +111,7 @@ public class ProjectCreator {
             newJson(newTroops(), new File(data, "Troops.json"));
             newJson(newStates(), new File(data, "States.json"));
             newJson(newSkills(), new File(data, "Skills.json"));
+            newJson(newSystem(gameTitle), new File(data, "System.json"));
             File fonts = Files.mkdir(projDir, "fonts");
             writeFontsCSS(new File(fonts, "gamefont.css"));
             copyRes(templ + "game.ttf", new File(fonts, "mplus-1m-regular.ttf"));
@@ -965,5 +975,89 @@ public class ProjectCreator {
         s.setNote(texts.getString("skill10note"));
         sk.add(s);
         return sk;
+    }
+
+    private static System newSystem(String gameTitle) {
+        System s = new System();
+        s.setGameTitle(gameTitle);
+        s.setWindowTone(new int[]{0, 0, 0, 0});
+        s.setWeaponTypes(asArray(texts, "weaponTypes"));
+        s.setVersionId(14969328);
+        s.setVictoryMe(new Sound("Victory1", 0, 100, 90));
+        s.setVariables(repeat(21, ""));
+        s.setMenuCommands(repeat(6, true));
+        s.setTestTroopId(4);
+        s.setTitle1Name(texts.getString("title1Name"));
+        s.setTitle2Name(texts.getString("title2Name"));
+        s.setTitleBgm(new Bgm("Theme6", 0, 100, 90));
+        s.setArmorTypes(asArray(texts, "armorTypes"));
+        s.setSkillTypes(asArray(texts, "skillTypes"));
+        s.setBattleback1Name("Grassland");
+        s.setBattleback2Name("Grassland");
+        s.setBattlerHue(0);
+        s.setBattlerName("Dragon");
+        s.setEquipTypes(asArray(texts, "equipTypes"));
+        s.setElements(asArray(texts, "elements"));
+        s.setCurrencyUnit("G");
+        s.setEditMapId(1);
+        s.setSwitches(repeat(21, ""));
+        s.setStartMapId(1);
+        s.setStartX(8);
+        s.setStartY(6);
+        s.setOptDisplayTp(true);
+        s.setOptDrawTitle(true);
+        s.setOptFollowers(true);
+        s.setPartyMembers(new int[]{1, 2, 3, 4});
+        s.setBattleBgm(new Bgm("Battle1", 0, 100, 90));
+        s.setDefeatMe(new Sound("Defeat1", 0, 100, 90));
+        s.setGameoverMe(new Sound("Gameover1", 0, 100, 90));
+        s.setLocale(locale.getLanguage() + "_" + locale.getCountry());
+        s.setMagicSkills(new int[]{1});
+        s.setTestBattlers(new Battler(1, new int[]{1, 1, 2, 3, 0}, 1),
+                new Battler(2, new int[]{2, 1, 2, 3, 0}, 1),
+                new Battler(3, new int[]{3, 0, 2, 3, 4}, 1),
+                new Battler(4, new int[]{4, 0, 2, 3, 4}, 1));
+        s.setBoat(new Airship(new Bgm("Ship1", 0, 100, 90),
+                0, "Vehicle", 0, 0, 0));
+        s.setAirship(new Airship(new Bgm("Ship3", 0, 100, 90),
+                3, "Vehicle", 0, 0, 0));
+        s.setShip(new Airship(new Bgm("Ship2", 0, 100, 90),
+                1, "Vehicle", 0, 0, 0));
+        Terms t;
+        s.setTerms(t = new Terms());
+        t.setBasic(asArray(texts, "termsBasic"));
+        t.setCommands(asArray(texts, "termsCommands"));
+        t.setParams(asArray(texts, "termsParams"));
+        TreeMap<String, String> tm;
+        t.setMessages(tm = new TreeMap<>());
+        String tmk = "msg_";
+        for (String key : Collections.list(texts.getKeys())) {
+            if (key.startsWith(tmk)) {
+                tm.put(key.substring(tmk.length()), texts.getString(key));
+            }
+        }
+        texts.getKeys();
+        s.setAttackMotions(new AttackMotion(0, 0), new AttackMotion(1, 1),
+                new AttackMotion(1, 2), new AttackMotion(1, 3),
+                new AttackMotion(1, 4), new AttackMotion(1, 5),
+                new AttackMotion(1, 6), new AttackMotion(2, 7),
+                new AttackMotion(2, 8), new AttackMotion(2, 9),
+                new AttackMotion(0, 10), new AttackMotion(0, 11),
+                new AttackMotion(0, 12));
+        s.setSounds(new Sound("Cursor2", 0, 100, 90),
+                new Sound("Decision1", 0, 100, 90), new Sound("Cancel2", 0, 100, 90),
+                new Sound("Buzzer1", 0, 100, 90), new Sound("Equip1", 0, 100, 90),
+                new Sound("Save", 0, 100, 90), new Sound("Load", 0, 100, 90),
+                new Sound("Battle1", 0, 100, 90), new Sound("Run", 0, 100, 90),
+                new Sound("Attack3", 0, 100, 90), new Sound("Damage4", 0, 100, 90),
+                new Sound("Collapse1", 0, 100, 90), new Sound("Collapse2", 0, 100, 90),
+                new Sound("Collapse3", 0, 100, 90), new Sound("Damage5", 0, 100, 90),
+                new Sound("Collapse4", 0, 100, 90), new Sound("Recovery", 0, 100, 90),
+                new Sound("Miss", 0, 100, 90), new Sound("Evasion1", 0, 100, 90),
+                new Sound("Evasion2", 0, 100, 90), new Sound("Reflection", 0, 100, 90),
+                new Sound("Shop1", 0, 100, 90), new Sound("Item3", 0, 100, 90),
+                new Sound("Item3", 0, 100, 90)
+        );
+        return s;
     }
 }
