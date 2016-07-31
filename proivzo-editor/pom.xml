@@ -94,6 +94,12 @@
             <artifactId>ph-css</artifactId>
             <version>5.0.0</version>
         </dependency>        
+        <!-- For compression -->
+        <dependency>
+            <groupId>me.lemire.integercompression</groupId>
+            <artifactId>JavaFastPFOR</artifactId>
+            <version>0.1.7</version>
+        </dependency>
     </dependencies>
 
     <repositories>

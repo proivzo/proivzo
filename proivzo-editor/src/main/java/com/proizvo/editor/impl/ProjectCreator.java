@@ -1,7 +1,9 @@
 package com.proizvo.editor.impl;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import static com.proizvo.editor.util.Lists.insert;
+import static com.proizvo.editor.util.Numbers.unzip;
+import static com.proizvo.editor.util.Strings.asArray;
+import static com.proizvo.editor.util.Strings.repeat;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -9,8 +11,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -21,38 +25,41 @@ import org.dom4j.dom.DOMDocumentType;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.helger.css.decl.CSSDeclaration;
 import com.helger.css.decl.CSSExpression;
 import com.helger.css.decl.CSSFontFaceRule;
 import com.helger.css.decl.CascadingStyleSheet;
 import com.helger.css.writer.CSSWriter;
 import com.proizvo.editor.api.IProject;
+import com.proizvo.editor.data.Action;
 import com.proizvo.editor.data.Actor;
 import com.proizvo.editor.data.Actors;
+import com.proizvo.editor.data.Airship;
 import com.proizvo.editor.data.Armor;
 import com.proizvo.editor.data.Armors;
-import com.proizvo.editor.data.Bgm;
-import com.proizvo.editor.data.CommonEvent;
-import com.proizvo.editor.data.CommonEvents;
-import com.proizvo.editor.data.Enemies;
-import com.proizvo.editor.data.Enemy;
-import com.proizvo.editor.data.Event;
-import com.proizvo.editor.data.Map;
-import com.proizvo.editor.data.MapInfo;
-import com.proizvo.editor.data.MapInfos;
-import com.proizvo.editor.data.Trait;
-import com.proizvo.editor.data.Weapon;
-import com.proizvo.editor.data.Weapons;
-import com.proizvo.editor.data.Action;
-import com.proizvo.editor.data.Airship;
 import com.proizvo.editor.data.AttackMotion;
 import com.proizvo.editor.data.Battler;
+import com.proizvo.editor.data.Bgm;
+import com.proizvo.editor.data.Class;
+import com.proizvo.editor.data.Classes;
+import com.proizvo.editor.data.CommonEvent;
+import com.proizvo.editor.data.CommonEvents;
 import com.proizvo.editor.data.Conditions;
 import com.proizvo.editor.data.Damage;
 import com.proizvo.editor.data.DropItem;
 import com.proizvo.editor.data.Effect;
+import com.proizvo.editor.data.Enemies;
+import com.proizvo.editor.data.Enemy;
+import com.proizvo.editor.data.Event;
 import com.proizvo.editor.data.Item;
 import com.proizvo.editor.data.Items;
+import com.proizvo.editor.data.Learning;
+import com.proizvo.editor.data.Map;
+import com.proizvo.editor.data.MapInfo;
+import com.proizvo.editor.data.MapInfos;
 import com.proizvo.editor.data.Member;
 import com.proizvo.editor.data.Page;
 import com.proizvo.editor.data.Skill;
@@ -62,14 +69,12 @@ import com.proizvo.editor.data.State;
 import com.proizvo.editor.data.States;
 import com.proizvo.editor.data.System;
 import com.proizvo.editor.data.Terms;
+import com.proizvo.editor.data.Trait;
 import com.proizvo.editor.data.Troop;
 import com.proizvo.editor.data.Troops;
+import com.proizvo.editor.data.Weapon;
+import com.proizvo.editor.data.Weapons;
 import com.proizvo.editor.util.Files;
-
-import static com.proizvo.editor.util.Lists.*;
-import static com.proizvo.editor.util.Strings.*;
-import java.util.Collections;
-import java.util.TreeMap;
 
 public class ProjectCreator {
 
@@ -99,8 +104,9 @@ public class ProjectCreator {
             File me = Files.mkdir(audio, "me");
             File se = Files.mkdir(audio, "se");
             File data = Files.mkdir(projDir, "data");
-            newJson(insert(new MapInfos(), null, new MapInfo(1, false, "MAP001", 1, 0,
-                    411.5, 334)), new File(data, "MapInfos.json"));
+            newJson(insert(new MapInfos(), null, new MapInfo(1, false,
+                    "MAP001", 1, 0, 411.5, 334)), new File(data,
+                    "MapInfos.json"));
             newJson(newStdMap(), new File(data, "Map001.json"));
             newJson(newArmors(), new File(data, "Armors.json"));
             newJson(newActors(), new File(data, "Actors.json"));
@@ -112,6 +118,7 @@ public class ProjectCreator {
             newJson(newStates(), new File(data, "States.json"));
             newJson(newSkills(), new File(data, "Skills.json"));
             newJson(newSystem(gameTitle), new File(data, "System.json"));
+            newJson(newClasses(), new File(data, "Classes.json"));
             File fonts = Files.mkdir(projDir, "fonts");
             writeFontsCSS(new File(fonts, "gamefont.css"));
             copyRes(templ + "game.ttf", new File(fonts, "mplus-1m-regular.ttf"));
@@ -151,6 +158,167 @@ public class ProjectCreator {
         } catch (IOException e) {
             throw new RuntimeException("Could not create project!", e);
         }
+    }
+
+    private static Classes newClasses() throws JsonSyntaxException, IOException {
+        Classes cs = new Classes();
+        cs.add(null);
+        Class c = new Class();
+        c.setId(1);
+        c.setName(texts.getString("class1name"));
+        c.setNote("");
+        c.setExpParams(30, 20, 30, 30);
+        c.setLearnings(new Learning(1, "", 8), new Learning(1, "", 10));
+        c.setTraits(new Trait(23, 0, 1), new Trait(22, 0, 0.95), new Trait(22,
+                1, 0.05), new Trait(22, 2, 0.04), new Trait(41, 1, 0),
+                new Trait(51, 2, 0), new Trait(52, 1, 0), new Trait(52, 3, 0),
+                new Trait(52, 5, 0));
+        c.setParams(
+                unzip(100, 9, -1865711103, 210125601, -932957671, -2042420848,
+                        1681004812, 1126273224, 840502406, 563136612,
+                        420251203, 6, -1295307598, 749914924, -886263093,
+                        -1295307598, 749914924, -886263093, 6, -1295307598,
+                        749914924, -886263093, -1295307598, 749914924,
+                        -886263093, -1296911694),
+                unzip(100, 7, -1589465856, 169093200, 1352745605, -2062937048,
+                        676372802, 1116015124, 338186401, 4, -1431655766,
+                        -1431655766, -1431655766, -1431655766, 4, -1431655766,
+                        -1431655766, -1431655766, -1431655766, -1970632054),
+                unzip(100, 4, 303108849, 303108625, 303108625, 303108625, 2,
+                        1701143909, -1785358955, 2, -1785358955, -1785358955,
+                        -2122219135),
+                unzip(100, 5, -2112845312, 277356808, -2011101054, 554205712,
+                        142741640, 2, 1701143909, -1785358955, 2, -1785358955,
+                        -1785358955, -2122219135),
+                unzip(100, 5, -2112845312, 277356808, -2011101054, 554205712,
+                        142741640, 2, 1701143909, -1785358955, 2, -1785358955,
+                        -1785358955, -2122219135),
+                unzip(100, 5, -2112845312, 277356808, -2011101054, 554205712,
+                        142741640, 2, 1701143909, -1785358955, 2, -1785358955,
+                        -1785358955, -2122219135),
+                unzip(100, 6, -2096613376, 813893680, 137397000, -2096615293,
+                        813893680, 137397000, 2, -1145324613, -1145324613, 2,
+                        -1145324613, -1145324613, -2105310589),
+                unzip(100, 6, -2096613376, 813893680, 137397000, -2096615293,
+                        813893680, 137397000, 2, -1145324613, -1145324613, 2,
+                        -1145324613, -1145324613, -2105310589));
+        cs.add(c);
+        c = new Class(c);
+        c.setId(2);
+        c.setName(texts.getString("class2name"));
+        c.setNote("");
+        c.setLearnings(new Learning[0]);
+        c.setTraits(new Trait(23, 0, 1), new Trait(22, 0, 0.95), new Trait(22,
+                1, 0.05), new Trait(22, 2, 0.04), new Trait(41, 1, 0),
+                new Trait(51, 4, 0), new Trait(52, 1, 0), new Trait(52, 3, 0),
+                new Trait(52, 4, 0), new Trait(52, 5, 0), new Trait(52, 6, 0));
+        c.setParams(
+                unzip(100, 9, -1865711103, 210125601, -932957671, -2042420848,
+                        1681004812, 1126273224, 840502406, 563136612,
+                        420251203, 6, -1295307598, 749914924, -886263093,
+                        -1295307598, 749914924, -886263093, 6, -1295307598,
+                        749914924, -886263093, -1295307598, 749914924,
+                        -886263093, -1296911694),
+                unzip(100, 7, -1589465856, 169093200, 1352745605, -2062937048,
+                        676372802, 1116015124, 338186401, 4, -1431655766,
+                        -1431655766, -1431655766, -1431655766, 4, -1431655766,
+                        -1431655766, -1431655766, -1431655766, -1970632054),
+                unzip(100, 4, 303108849, 303108625, 303108625, 303108625, 2,
+                        1701143909, -1785358955, 2, -1785358955, -1785358955,
+                        -2122219135),
+                unzip(100, 5, -2112845312, 277356808, -2011101054, 554205712,
+                        142741640, 2, 1701143909, -1785358955, 2, -1785358955,
+                        -1785358955, -2122219135),
+                unzip(100, 5, -2112845312, 277356808, -2011101054, 554205712,
+                        142741640, 2, 1701143909, -1785358955, 2, -1785358955,
+                        -1785358955, -2122219135),
+                unzip(100, 5, -2112845312, 277356808, -2011101054, 554205712,
+                        142741640, 2, 1701143909, -1785358955, 2, -1785358955,
+                        -1785358955, -2122219135),
+                unzip(100, 6, -2096613376, 813893680, 137397000, -2096615293,
+                        813893680, 137397000, 2, -1145324613, -1145324613, 2,
+                        -1145324613, -1145324613, -2105310589),
+                unzip(100, 6, -2096613376, 813893680, 137397000, -2096615293,
+                        813893680, 137397000, 2, -1145324613, -1145324613, 2,
+                        -1145324613, -1145324613, -2105310589));
+        cs.add(c);
+        c = new Class(c);
+        c.setId(3);
+        c.setName(texts.getString("class3name"));
+        c.setNote("");
+        c.setTraits(new Trait(23, 0, 1), new Trait(22, 0, 0.95), new Trait(22,
+                1, 0.05), new Trait(22, 2, 0.04), new Trait(41, 1, 0),
+                new Trait(51, 6, 0), new Trait(52, 1, 0), new Trait(52, 2, 0));
+        c.setLearnings(new Learning(1, "", 9));
+        c.setParams(
+                unzip(100, 9, -1865711103, 210125601, -932957671, -2042420848,
+                        1681004812, 1126273224, 840502406, 563136612,
+                        420251203, 6, -1295307598, 749914924, -886263093,
+                        -1295307598, 749914924, -886263093, 6, -1295307598,
+                        749914924, -886263093, -1295307598, 749914924,
+                        -886263093, -1296911694),
+                unzip(100, 7, -1589465856, 169093200, 1352745605, -2062937048,
+                        676372802, 1116015124, 338186401, 4, -1431655766,
+                        -1431655766, -1431655766, -1431655766, 4, -1431655766,
+                        -1431655766, -1431655766, -1431655766, -1970632054),
+                unzip(100, 4, 303108849, 303108625, 303108625, 303108625, 2,
+                        1701143909, -1785358955, 2, -1785358955, -1785358955,
+                        -2122219135),
+                unzip(100, 5, -2112845312, 277356808, -2011101054, 554205712,
+                        142741640, 2, 1701143909, -1785358955, 2, -1785358955,
+                        -1785358955, -2122219135),
+                unzip(100, 5, -2112845312, 277356808, -2011101054, 554205712,
+                        142741640, 2, 1701143909, -1785358955, 2, -1785358955,
+                        -1785358955, -2122219135),
+                unzip(100, 5, -2112845312, 277356808, -2011101054, 554205712,
+                        142741640, 2, 1701143909, -1785358955, 2, -1785358955,
+                        -1785358955, -2122219135),
+                unzip(100, 6, -2096613376, 813893680, 137397000, -2096615293,
+                        813893680, 137397000, 2, -1145324613, -1145324613, 2,
+                        -1145324613, -1145324613, -2105310589),
+                unzip(100, 6, -2096613376, 813893680, 137397000, -2096615293,
+                        813893680, 137397000, 2, -1145324613, -1145324613, 2,
+                        -1145324613, -1145324613, -2105310589));
+        cs.add(c);
+        c = new Class(c);
+        c.setId(4);
+        c.setName(texts.getString("class4name"));
+        c.setNote("");
+        c.setTraits(new Trait(23, 0, 1), new Trait(22, 0, 0.95), new Trait(22,
+                1, 0.05), new Trait(22, 2, 0.04), new Trait(41, 1, 0),
+                new Trait(51, 7, 0), new Trait(52, 1, 0), new Trait(52, 2, 0));
+        c.setLearnings(new Learning(1, "", 8));
+        c.setParams(
+                unzip(100, 9, -1865711103, 210125601, -932957671, -2042420848,
+                        1681004812, 1126273224, 840502406, 563136612,
+                        420251203, 6, -1295307598, 749914924, -886263093,
+                        -1295307598, 749914924, -886263093, 6, -1295307598,
+                        749914924, -886263093, -1295307598, 749914924,
+                        -886263093, -1296911694),
+                unzip(100, 7, -1589465856, 169093200, 1352745605, -2062937048,
+                        676372802, 1116015124, 338186401, 4, -1431655766,
+                        -1431655766, -1431655766, -1431655766, 4, -1431655766,
+                        -1431655766, -1431655766, -1431655766, -1970632054),
+                unzip(100, 4, 303108849, 303108625, 303108625, 303108625, 2,
+                        1701143909, -1785358955, 2, -1785358955, -1785358955,
+                        -2122219135),
+                unzip(100, 5, -2112845312, 277356808, -2011101054, 554205712,
+                        142741640, 2, 1701143909, -1785358955, 2, -1785358955,
+                        -1785358955, -2122219135),
+                unzip(100, 5, -2112845312, 277356808, -2011101054, 554205712,
+                        142741640, 2, 1701143909, -1785358955, 2, -1785358955,
+                        -1785358955, -2122219135),
+                unzip(100, 5, -2112845312, 277356808, -2011101054, 554205712,
+                        142741640, 2, 1701143909, -1785358955, 2, -1785358955,
+                        -1785358955, -2122219135),
+                unzip(100, 6, -2096613376, 813893680, 137397000, -2096615293,
+                        813893680, 137397000, 2, -1145324613, -1145324613, 2,
+                        -1145324613, -1145324613, -2105310589),
+                unzip(100, 6, -2096613376, 813893680, 137397000, -2096615293,
+                        813893680, 137397000, 2, -1145324613, -1145324613, 2,
+                        -1145324613, -1145324613, -2105310589));
+        cs.add(c);
+        return cs;
     }
 
     private static Armors newArmors() {
@@ -310,7 +478,7 @@ public class ProjectCreator {
         copyRes(ProjectCreator.class, src, dest);
     }
 
-    private static void copyRes(Class<?> clazz, String src, File dest) {
+    private static void copyRes(java.lang.Class<?> clazz, String src, File dest) {
         copyRes(clazz.getClassLoader(), src, dest);
     }
 
@@ -327,10 +495,10 @@ public class ProjectCreator {
     private static void writeFontsCSS(File dest) throws IOException {
         CascadingStyleSheet css = new CascadingStyleSheet();
         CSSFontFaceRule ffr = new CSSFontFaceRule();
-        ffr.addDeclaration(new CSSDeclaration("font-family",
-                CSSExpression.createSimple("GameFont")));
-        ffr.addDeclaration(new CSSDeclaration("src",
-                CSSExpression.createURI("mplus-1m-regular.ttf")));
+        ffr.addDeclaration(new CSSDeclaration("font-family", CSSExpression
+                .createSimple("GameFont")));
+        ffr.addDeclaration(new CSSDeclaration("src", CSSExpression
+                .createURI("mplus-1m-regular.ttf")));
         css.addRule(ffr);
         CSSWriter writer = new CSSWriter();
         try (FileWriter out = new FileWriter(dest)) {
@@ -339,7 +507,7 @@ public class ProjectCreator {
     }
 
     private static void newJson(Object obj, File file) throws IOException {
-        Gson json = (new GsonBuilder())/*.setPrettyPrinting()*/.create();
+        Gson json = (new GsonBuilder())/* .setPrettyPrinting() */.create();
         FileUtils.write(file, json.toJson(obj), "UTF-8");
     }
 
@@ -513,10 +681,10 @@ public class ProjectCreator {
         e.setName(texts.getString("enemy1name"));
         e.setActions(new Action(0, 0, 0, 5, 1));
         e.setBattlerName("Bat");
-        e.setDropItems(new DropItem(1, 1, 0),
-                new DropItem(1, 1, 0), new DropItem(1, 1, 0));
-        e.setTraits(new Trait(22, 0, 0.95), new Trait(22, 1, 0.05),
-                new Trait(31, 1, 0));
+        e.setDropItems(new DropItem(1, 1, 0), new DropItem(1, 1, 0),
+                new DropItem(1, 1, 0));
+        e.setTraits(new Trait(22, 0, 0.95), new Trait(22, 1, 0.05), new Trait(
+                31, 1, 0));
         e.setGold(0);
         e.setNote("");
         e.setParams(new int[]{200, 0, 30, 30, 30, 30, 30, 30});
@@ -526,10 +694,10 @@ public class ProjectCreator {
         e.setName(texts.getString("enemy2name"));
         e.setActions(new Action(0, 0, 0, 5, 1));
         e.setBattlerName("Slime");
-        e.setDropItems(new DropItem(1, 1, 0),
-                new DropItem(1, 1, 0), new DropItem(1, 1, 0));
-        e.setTraits(new Trait(22, 0, 0.95), new Trait(22, 1, 0.05),
-                new Trait(31, 1, 0));
+        e.setDropItems(new DropItem(1, 1, 0), new DropItem(1, 1, 0),
+                new DropItem(1, 1, 0));
+        e.setTraits(new Trait(22, 0, 0.95), new Trait(22, 1, 0.05), new Trait(
+                31, 1, 0));
         e.setGold(0);
         e.setNote("");
         e.setParams(new int[]{250, 0, 30, 30, 30, 30, 30, 30});
@@ -539,10 +707,10 @@ public class ProjectCreator {
         e.setName(texts.getString("enemy3name"));
         e.setActions(new Action(0, 0, 0, 5, 1));
         e.setBattlerName("Orc");
-        e.setDropItems(new DropItem(1, 1, 0),
-                new DropItem(1, 1, 0), new DropItem(1, 1, 0));
-        e.setTraits(new Trait(22, 0, 0.95), new Trait(22, 1, 0.05),
-                new Trait(31, 1, 0));
+        e.setDropItems(new DropItem(1, 1, 0), new DropItem(1, 1, 0),
+                new DropItem(1, 1, 0));
+        e.setTraits(new Trait(22, 0, 0.95), new Trait(22, 1, 0.05), new Trait(
+                31, 1, 0));
         e.setGold(0);
         e.setNote("");
         e.setParams(new int[]{300, 0, 30, 30, 30, 30, 30, 30});
@@ -552,10 +720,10 @@ public class ProjectCreator {
         e.setName(texts.getString("enemy4name"));
         e.setActions(new Action(0, 0, 0, 5, 1));
         e.setBattlerName("Minotaur");
-        e.setDropItems(new DropItem(1, 1, 0),
-                new DropItem(1, 1, 0), new DropItem(1, 1, 0));
-        e.setTraits(new Trait(22, 0, 0.95), new Trait(22, 1, 0.05),
-                new Trait(31, 1, 0));
+        e.setDropItems(new DropItem(1, 1, 0), new DropItem(1, 1, 0),
+                new DropItem(1, 1, 0));
+        e.setTraits(new Trait(22, 0, 0.95), new Trait(22, 1, 0.05), new Trait(
+                31, 1, 0));
         e.setGold(0);
         e.setNote("");
         e.setParams(new int[]{500, 0, 30, 30, 30, 30, 30, 30});
@@ -734,37 +902,33 @@ public class ProjectCreator {
         ts.add(null);
         Troop t = new Troop();
         t.setId(1);
-        t.setMembers(new Member(1, 336, 436, false),
-                new Member(1, 480, 436, false));
+        t.setMembers(new Member(1, 336, 436, false), new Member(1, 480, 436,
+                false));
         t.setName(texts.getString("troop1name"));
-        t.setPages(new Page(new Conditions(50, 1, false, 50, 0,
-                false, 1, false, 0, 0, false, false), 0,
-                new Event(0, 0, new int[0])));
+        t.setPages(new Page(new Conditions(50, 1, false, 50, 0, false, 1,
+                false, 0, 0, false, false), 0, new Event(0, 0, new int[0])));
         ts.add(t);
         t = new Troop();
         t.setId(2);
-        t.setMembers(new Member(2, 337, 436, false),
-                new Member(2, 480, 436, false));
+        t.setMembers(new Member(2, 337, 436, false), new Member(2, 480, 436,
+                false));
         t.setName(texts.getString("troop2name"));
-        t.setPages(new Page(new Conditions(50, 1, false, 50, 0,
-                false, 1, false, 0, 0, false, false), 0,
-                new Event(0, 0, new int[0])));
+        t.setPages(new Page(new Conditions(50, 1, false, 50, 0, false, 1,
+                false, 0, 0, false, false), 0, new Event(0, 0, new int[0])));
         ts.add(t);
         t = new Troop();
         t.setId(3);
         t.setMembers(new Member(3, 408, 436, false));
         t.setName(texts.getString("troop3name"));
-        t.setPages(new Page(new Conditions(50, 1, false, 50, 0,
-                false, 1, false, 0, 0, false, false), 0,
-                new Event(0, 0, new int[0])));
+        t.setPages(new Page(new Conditions(50, 1, false, 50, 0, false, 1,
+                false, 0, 0, false, false), 0, new Event(0, 0, new int[0])));
         ts.add(t);
         t = new Troop();
         t.setId(4);
         t.setMembers(new Member(4, 408, 436, false));
         t.setName(texts.getString("troop4name"));
-        t.setPages(new Page(new Conditions(50, 1, false, 50, 0,
-                false, 1, false, 0, 0, false, false), 0,
-                new Event(0, 0, new int[0])));
+        t.setPages(new Page(new Conditions(50, 1, false, 50, 0, false, 1,
+                false, 0, 0, false, false), 0, new Event(0, 0, new int[0])));
         ts.add(t);
         return ts;
     }
@@ -818,10 +982,10 @@ public class ProjectCreator {
         it.setScope(7);
         it.setSuccessRate(100);
         it.setDamage(new Damage(false, 0, "0", 0, 20));
-        it.setEffects(new Effect(22, 4, 1, 0),
-                new Effect(22, 5, 1, 0), new Effect(22, 6, 1, 0),
-                new Effect(22, 7, 1, 0), new Effect(22, 8, 1, 0),
-                new Effect(22, 9, 1, 0), new Effect(22, 10, 1, 0));
+        it.setEffects(new Effect(22, 4, 1, 0), new Effect(22, 5, 1, 0),
+                new Effect(22, 6, 1, 0), new Effect(22, 7, 1, 0), new Effect(
+                        22, 8, 1, 0), new Effect(22, 9, 1, 0), new Effect(22,
+                        10, 1, 0));
         is.add(it);
         it = new Item();
         it.setId(4);
@@ -1014,15 +1178,15 @@ public class ProjectCreator {
         s.setLocale(locale.getLanguage() + "_" + locale.getCountry());
         s.setMagicSkills(new int[]{1});
         s.setTestBattlers(new Battler(1, new int[]{1, 1, 2, 3, 0}, 1),
-                new Battler(2, new int[]{2, 1, 2, 3, 0}, 1),
-                new Battler(3, new int[]{3, 0, 2, 3, 4}, 1),
-                new Battler(4, new int[]{4, 0, 2, 3, 4}, 1));
-        s.setBoat(new Airship(new Bgm("Ship1", 0, 100, 90),
-                0, "Vehicle", 0, 0, 0));
-        s.setAirship(new Airship(new Bgm("Ship3", 0, 100, 90),
-                3, "Vehicle", 0, 0, 0));
-        s.setShip(new Airship(new Bgm("Ship2", 0, 100, 90),
-                1, "Vehicle", 0, 0, 0));
+                new Battler(2, new int[]{2, 1, 2, 3, 0}, 1), new Battler(3,
+                        new int[]{3, 0, 2, 3, 4}, 1), new Battler(4,
+                        new int[]{4, 0, 2, 3, 4}, 1));
+        s.setBoat(new Airship(new Bgm("Ship1", 0, 100, 90), 0, "Vehicle", 0, 0,
+                0));
+        s.setAirship(new Airship(new Bgm("Ship3", 0, 100, 90), 3, "Vehicle", 0,
+                0, 0));
+        s.setShip(new Airship(new Bgm("Ship2", 0, 100, 90), 1, "Vehicle", 0, 0,
+                0));
         Terms t;
         s.setTerms(t = new Terms());
         t.setBasic(asArray(texts, "termsBasic"));
@@ -1044,20 +1208,21 @@ public class ProjectCreator {
                 new AttackMotion(2, 8), new AttackMotion(2, 9),
                 new AttackMotion(0, 10), new AttackMotion(0, 11),
                 new AttackMotion(0, 12));
-        s.setSounds(new Sound("Cursor2", 0, 100, 90),
-                new Sound("Decision1", 0, 100, 90), new Sound("Cancel2", 0, 100, 90),
-                new Sound("Buzzer1", 0, 100, 90), new Sound("Equip1", 0, 100, 90),
+        s.setSounds(new Sound("Cursor2", 0, 100, 90), new Sound("Decision1", 0,
+                100, 90), new Sound("Cancel2", 0, 100, 90), new Sound(
+                "Buzzer1", 0, 100, 90), new Sound("Equip1", 0, 100, 90),
                 new Sound("Save", 0, 100, 90), new Sound("Load", 0, 100, 90),
                 new Sound("Battle1", 0, 100, 90), new Sound("Run", 0, 100, 90),
-                new Sound("Attack3", 0, 100, 90), new Sound("Damage4", 0, 100, 90),
-                new Sound("Collapse1", 0, 100, 90), new Sound("Collapse2", 0, 100, 90),
-                new Sound("Collapse3", 0, 100, 90), new Sound("Damage5", 0, 100, 90),
-                new Sound("Collapse4", 0, 100, 90), new Sound("Recovery", 0, 100, 90),
-                new Sound("Miss", 0, 100, 90), new Sound("Evasion1", 0, 100, 90),
-                new Sound("Evasion2", 0, 100, 90), new Sound("Reflection", 0, 100, 90),
-                new Sound("Shop1", 0, 100, 90), new Sound("Item3", 0, 100, 90),
-                new Sound("Item3", 0, 100, 90)
-        );
+                new Sound("Attack3", 0, 100, 90), new Sound("Damage4", 0, 100,
+                        90), new Sound("Collapse1", 0, 100, 90), new Sound(
+                        "Collapse2", 0, 100, 90), new Sound("Collapse3", 0,
+                        100, 90), new Sound("Damage5", 0, 100, 90), new Sound(
+                        "Collapse4", 0, 100, 90), new Sound("Recovery", 0, 100,
+                        90), new Sound("Miss", 0, 100, 90), new Sound(
+                        "Evasion1", 0, 100, 90), new Sound("Evasion2", 0, 100,
+                        90), new Sound("Reflection", 0, 100, 90), new Sound(
+                        "Shop1", 0, 100, 90), new Sound("Item3", 0, 100, 90),
+                new Sound("Item3", 0, 100, 90));
         return s;
     }
 }
