@@ -36,4 +36,24 @@ public class Tileset {
     public void setId(long id) {
         this.id = id;
     }
+
+    public void setFlags(int... flags) {
+        this.flags = flags;
+    }
+
+    public void setTilesetNames(String... tilesetNames) {
+        this.tilesetNames = tilesetNames;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
 }

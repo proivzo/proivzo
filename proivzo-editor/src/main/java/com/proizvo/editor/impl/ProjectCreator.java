@@ -4,6 +4,7 @@ import static com.proizvo.editor.util.Lists.insert;
 import static com.proizvo.editor.util.Numbers.unzip;
 import static com.proizvo.editor.util.Strings.asArray;
 import static com.proizvo.editor.util.Strings.repeat;
+import static com.proizvo.editor.impl.SecondCreator.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -79,7 +80,7 @@ import com.proizvo.editor.util.Files;
 public class ProjectCreator {
 
     private static final Locale locale;
-    private static final ResourceBundle texts;
+    static final ResourceBundle texts;
 
     static {
         locale = new Locale("de", "DE");
@@ -119,6 +120,7 @@ public class ProjectCreator {
             newJson(newSkills(), new File(data, "Skills.json"));
             newJson(newSystem(gameTitle), new File(data, "System.json"));
             newJson(newClasses(), new File(data, "Classes.json"));
+            newJson(newTilesets(), new File(data, "Tilesets.json"));
             File fonts = Files.mkdir(projDir, "fonts");
             writeFontsCSS(new File(fonts, "gamefont.css"));
             copyRes(templ + "game.ttf", new File(fonts, "mplus-1m-regular.ttf"));
