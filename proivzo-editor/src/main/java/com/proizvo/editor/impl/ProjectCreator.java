@@ -5,6 +5,7 @@ import static com.proizvo.editor.util.Numbers.unzip;
 import static com.proizvo.editor.util.Strings.asArray;
 import static com.proizvo.editor.util.Strings.repeat;
 import static com.proizvo.editor.impl.SecondCreator.*;
+import static com.proizvo.editor.impl.ThirdCreator.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -121,6 +122,7 @@ public class ProjectCreator {
             newJson(newSystem(gameTitle), new File(data, "System.json"));
             newJson(newClasses(), new File(data, "Classes.json"));
             newJson(newTilesets(), new File(data, "Tilesets.json"));
+            newJson(newAnimations(), new File(data, "Animations.json"));
             File fonts = Files.mkdir(projDir, "fonts");
             writeFontsCSS(new File(fonts, "gamefont.css"));
             copyRes(templ + "game.ttf", new File(fonts, "mplus-1m-regular.ttf"));

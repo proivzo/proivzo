@@ -13,4 +13,20 @@ public class Sound {
         this.pitch = pitch;
         this.volume = volume;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPan() {
+        return pan;
+    }
+
+    public int getPitch() {
+        return pitch;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
 }

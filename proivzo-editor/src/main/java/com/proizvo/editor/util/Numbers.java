@@ -20,4 +20,12 @@ public class Numbers {
     public static int[] unzip(int... compressed) {
         return iic.uncompress(compressed);
     }
+
+    public static float[] a(float... vals) {
+        return vals;
+    }
+
+    public static float[][] b(float[]... vals) {
+        return vals;
+    }
 }
