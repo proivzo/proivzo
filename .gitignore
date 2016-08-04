@@ -17,6 +17,15 @@ hs_err_pid*
 .project
 .settings/
 
+# Netbeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+.nb-gradle/
+
 # Testing
 tmpI/
 tmpO/

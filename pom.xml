@@ -15,6 +15,7 @@
 	</properties>
 
 	<modules>
+        <module>proivzo-runner</module>
 		<module>proivzo-editor</module>
 	</modules>
 </project>
