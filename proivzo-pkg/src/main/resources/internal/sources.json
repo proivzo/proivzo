@@ -1,0 +1,43 @@
+{
+	node_js:
+	{
+		vars:
+		{
+			ver: '4.4.7'
+		},
+		download:
+		{
+			windows: 'https://nodejs.org/dist/v$VER$/win-x64/node.exe',
+			mac_osx: 'https://nodejs.org/dist/v$VER$/node-v$VER$-darwin-x64.tar.gz',
+			linux: 'https://nodejs.org/dist/v$VER$/node-v$VER$-linux-x64.tar.xz'
+		}
+	},
+	cordova:
+	{
+		vars:
+		{
+			ver: 'latest'
+		},
+		script:
+		{
+			unknown: 'npm install -g cordova@$VER$'
+		}
+	},
+	sdk_android: 
+	{
+		vars: 
+		{
+			ver: '24.4.1'
+		},
+		download: 
+		{
+			windows: 'https://dl.google.com/android/android-sdk_r$VER$-windows.zip',
+			mac_osx: 'https://dl.google.com/android/android-sdk_r$VER$-macosx.zip',
+			linux: 'https://dl.google.com/android/android-sdk_r$VER$-linux.tgz'
+		},
+		script:
+		{
+			unknown: 'cordova platform add android'
+		}
+	}
+}

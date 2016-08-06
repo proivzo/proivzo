@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.proizvo</groupId>
+	<artifactId>proizvo-pkg</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>Proizvo Packager</name>
+	<description>Free and Open Source game packager</description>
+
+	<organization>
+		<name>Open Inventions Federated, Inc.</name>
+		<url>https://github.com/proivzo</url>
+	</organization>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+		<exe.class>com.proizvo.pkg.app.Program</exe.class>
+	</properties>
+
+	<dependencies>
+		<!-- For JSON -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.7</version>
+		</dependency>
+		<!-- For HTTP -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpasyncclient</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+		<!-- For OS detection -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+		<!-- For compression -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>1.12</version>
+		</dependency>
+		<!-- For XZ -->
+		<dependency>
+			<groupId>org.tukaani</groupId>
+			<artifactId>xz</artifactId>
+			<version>1.5</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<!-- For other Operating Systems -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>single</shadedClassifierName>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>${exe.class}</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

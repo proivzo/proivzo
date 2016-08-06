@@ -16,6 +16,7 @@
 
 	<modules>
         <module>proivzo-runner</module>
+		<module>proivzo-pkg</module>
 		<module>proivzo-editor</module>
 	</modules>
 </project>
