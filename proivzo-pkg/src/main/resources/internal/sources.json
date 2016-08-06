@@ -3,11 +3,11 @@
 	{
 		vars:
 		{
-			ver: '4.4.7'
+			ver: '6.3.1'
 		},
 		download:
 		{
-			windows: 'https://nodejs.org/dist/v$VER$/win-x64/node.exe',
+			windows: 'https://nodejs.org/dist/v$VER$/node-v$VER$-win-x64.zip',
 			mac_osx: 'https://nodejs.org/dist/v$VER$/node-v$VER$-darwin-x64.tar.gz',
 			linux: 'https://nodejs.org/dist/v$VER$/node-v$VER$-linux-x64.tar.xz'
 		}

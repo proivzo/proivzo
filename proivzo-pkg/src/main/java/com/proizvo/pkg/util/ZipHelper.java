@@ -9,42 +9,59 @@ import java.io.InputStream;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.compressors.CompressorInputStream;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.compress.compressors.xz.XZCompressorInputStream;
 import org.apache.commons.compress.utils.IOUtils;
 
 public class ZipHelper {
 
-	public static void unpack(File file) throws IOException {
-		try (FileInputStream in = new FileInputStream(file)) {
-			try (CompressorInputStream pack = detect(file, in)) {
-				try (ArchiveInputStream ark = new TarArchiveInputStream(pack)) {
-					ArchiveEntry entry;
-					while ((entry = ark.getNextEntry()) != null) {
-						File name = new File(entry.getName());
-						if (name.exists() && name.canRead())
-							continue;
-						if (entry.isDirectory()) {
-							name.mkdir();
-							continue;
-						}
-						try (FileOutputStream out = new FileOutputStream(name)) {
-							IOUtils.copy(ark, out);
-						}
-					}
-				}
-			}
-		}
-	}
+    public static void unpack(File file) throws IOException {
+        try (FileInputStream in = new FileInputStream(file)) {
+            try (InputStream pack = detect(file, in)) {
+                try (ArchiveInputStream ark = detectArk(file, pack)) {
+                    ArchiveEntry entry;
+                    while ((entry = ark.getNextEntry()) != null) {
+                        File name = new File(entry.getName());
+                        if (name.exists() && name.canRead()) {
+                            continue;
+                        }
+                        if (entry.isDirectory()) {
+                            name.mkdir();
+                            continue;
+                        }
+                        try (FileOutputStream out = new FileOutputStream(name)) {
+                            IOUtils.copy(ark, out);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-	private static CompressorInputStream detect(File file, InputStream in)
-			throws IOException {
-		String name = file.getName().toLowerCase();
-		if (name.endsWith(".tar.xz"))
-			return new XZCompressorInputStream(in);
-		if (name.endsWith(".tgz"))
-			return new GzipCompressorInputStream(in);
-		throw new UnsupportedOperationException(file + "?!");
-	}
+    private static ArchiveInputStream detectArk(File file, InputStream in) {
+        String name = file.getName().toLowerCase();
+        if (name.contains(".tar.") || name.contains(".t")) {
+            return new TarArchiveInputStream(in);
+        }
+        if (name.endsWith("zip")) {
+            return new ZipArchiveInputStream(in);
+        }
+        throw new UnsupportedOperationException(file + "?!");
+    }
+
+    private static InputStream detect(File file, InputStream in)
+            throws IOException {
+        String name = file.getName().toLowerCase();
+        if (name.endsWith(".tar.xz")) {
+            return new XZCompressorInputStream(in);
+        }
+        if (name.endsWith(".tgz")) {
+            return new GzipCompressorInputStream(in);
+        }
+        if (name.endsWith("zip")) {
+            return in;
+        }
+        throw new UnsupportedOperationException(file + "?!");
+    }
 }
