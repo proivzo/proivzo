@@ -16,13 +16,13 @@ import org.apache.commons.compress.utils.IOUtils;
 
 public class ZipHelper {
 
-    public static void unpack(File file) throws IOException {
+    public static void unpack(File root, File file) throws IOException {
         try (FileInputStream in = new FileInputStream(file)) {
             try (InputStream pack = detect(file, in)) {
                 try (ArchiveInputStream ark = detectArk(file, pack)) {
                     ArchiveEntry entry;
                     while ((entry = ark.getNextEntry()) != null) {
-                        File name = new File(entry.getName());
+                        File name = new File(root, entry.getName());
                         if (name.exists() && name.canRead()) {
                             continue;
                         }

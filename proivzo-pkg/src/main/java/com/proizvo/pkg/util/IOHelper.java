@@ -1,6 +1,7 @@
 package com.proizvo.pkg.util;
 
 import java.io.InputStream;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,5 +47,15 @@ public class IOHelper {
 				text = text.replace(key, val);
 		}
 		return text;
+	}
+
+	public static Map<String, String> build(String... texts) {
+		Map<String, String> map = new LinkedHashMap<>();
+		for (int i = 0; i < texts.length; i = i + 2) {
+			String key = texts[i];
+			String val = texts[i + 1];
+			map.put(key, val);
+		}
+		return map;
 	}
 }

@@ -37,8 +37,8 @@ public class Download implements FutureCallback<HttpResponse>, Closeable,
 	private FileOutputStream out;
 	private Future<HttpResponse> fut;
 
-	public Download(String raw, String path) throws FileNotFoundException {
-		this.file = new File(path);
+	public Download(File root, String raw, String path) throws FileNotFoundException {
+		this.file = new File(root, path);
 		this.url = URI.create(raw);
 		this.client = HttpAsyncClients.createDefault();
 		this.req = new HttpGet(url);
@@ -50,6 +50,7 @@ public class Download implements FutureCallback<HttpResponse>, Closeable,
 					"Not Modified"));
 			return;
 		}
+		file.getParentFile().mkdirs();
 		this.out = new FileOutputStream(file);
 		client.start();
 		this.fut = client.execute(prod, cons, this);
