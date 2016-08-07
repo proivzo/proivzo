@@ -20,7 +20,8 @@
 		},
 		script:
 		{
-			unknown: 'node $EXEPDIR$/../lib/node_modules/npm/cli.js install -g cordova@$VER$'
+			unix: 'node $EXEPDIR$/../lib/node_modules/npm/cli.js install -g cordova@$VER$',
+			windows: 'node.exe $EXEPDIR$/node_modules/npm/cli.js install -g cordova@$VER$'
 		}
 	},
 	sdk_android: 
@@ -37,7 +38,8 @@
 		},
 		script:
 		{
-			unknown: 'node $EXEPDIR$/../lib/node_modules/cordova/bin/cordova platform add android'
+			unix: 'node $EXEPDIR$/../lib/node_modules/cordova/bin/cordova platform add android',
+			windows: 'node.exe $EXEPDIR$/node_modules/cordova/bin/cordova platform add android'
 		}
 	}
 }

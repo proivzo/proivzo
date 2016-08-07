@@ -50,7 +50,7 @@ public class Executer implements Closeable, AutoCloseable {
 				}
 			}
 		}
-		System.out.println(" ??? (" + exe.getName() + ") Program terminated!");
+		System.out.println(" ??? (" + exe.getName() + ") Program terminated with code=" + proc.exitValue() + "!");
 		latch.countDown();
 	}
 
