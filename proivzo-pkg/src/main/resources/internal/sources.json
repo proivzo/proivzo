@@ -18,6 +18,10 @@
 		{
 			ver: 'latest'
 		},
+                skip:
+                {
+                	file: 'cordova'
+                },
 		script:
 		{
 			unix: 'node $EXEPDIR$/../lib/node_modules/npm/cli.js install -g cordova@$VER$',

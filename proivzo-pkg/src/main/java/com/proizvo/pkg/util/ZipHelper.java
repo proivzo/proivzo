@@ -16,14 +16,20 @@ import org.apache.commons.compress.utils.IOUtils;
 
 public class ZipHelper {
 
-    public static void unpack(File root, File file) throws IOException {
+    public static void unpack(File root, File file, boolean fastMode) throws IOException {
         try (FileInputStream in = new FileInputStream(file)) {
             try (InputStream pack = detect(file, in)) {
                 try (ArchiveInputStream ark = detectArk(file, pack)) {
+                    int i = 0;
                     ArchiveEntry entry;
                     while ((entry = ark.getNextEntry()) != null) {
                         File name = new File(root, entry.getName());
+                        i++;
                         if (name.exists() && name.canRead()) {
+                            if (i == 1 && fastMode) {
+                                System.out.println(" skip extraction because '"+name.getName()+"' exists!");
+                                return;
+                            }
                             continue;
                         }
                         if (entry.isDirectory()) {

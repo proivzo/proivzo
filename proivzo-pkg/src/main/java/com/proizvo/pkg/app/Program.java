@@ -1,5 +1,6 @@
 package com.proizvo.pkg.app;
 
+import static com.proizvo.pkg.util.IOHelper.findExe;
 import static com.proizvo.pkg.util.IOHelper.build;
 import static com.proizvo.pkg.util.IOHelper.find;
 import static com.proizvo.pkg.util.IOHelper.getFilePart;
@@ -41,6 +42,16 @@ public class Program {
 
 			System.out.format("Recipe '%s'... %n", key);
 			Map<String, String> vars = asMap(val.get("vars"));
+                        
+                        Map<String, String> skip = asMap(val.get("skip"));
+                        String skipFilePath = skip.get("file");
+                        if (skipFilePath != null) {
+                            File skipFile = findExe(workdir, skipFilePath);
+                            if (skipFile.exists()) {
+                                System.out.println(" skip because '"+skipFile.getName()+"' already exists!");
+                                continue;
+                            }
+                        }
 
 			Map<String, String> urls = asMap(val.get("download"));
 			String url = replace(find(urls, osKeys), vars);
@@ -49,7 +60,7 @@ public class Program {
 				Download dl = new Download(workdir, url, getFilePart(url));
 				System.out.println(" * " + dl);
 				dl.getLatch().await();
-				unpack(workdir, dl.getFile());
+				unpack(workdir, dl.getFile(), true);
 			}
 
 			Map<String, String> cmds = asMap(val.get("script"));
