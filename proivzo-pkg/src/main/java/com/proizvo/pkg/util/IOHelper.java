@@ -1,9 +1,12 @@
 package com.proizvo.pkg.util;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
 
 public class IOHelper {
 
@@ -57,5 +60,12 @@ public class IOHelper {
 			map.put(key, val);
 		}
 		return map;
+	}
+
+	public static File findExe(File root, String exe) {
+		for (File file : FileUtils.listFiles(root, null, true))
+			if (file.getName().equalsIgnoreCase(exe) && file.length() >= 1)
+				return file;
+		throw new UnsupportedOperationException("Couldn't find '" + exe + "'!");
 	}
 }

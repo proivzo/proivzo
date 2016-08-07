@@ -22,6 +22,7 @@ import org.apache.commons.lang3.SystemUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.proizvo.pkg.net.Download;
+import com.proizvo.pkg.proc.Executer;
 
 public class Program {
 
@@ -54,8 +55,11 @@ public class Program {
 			Map<String, String> cmds = asMap(val.get("script"));
 			String cmd = replace(find(cmds, osKeys), vars);
 
-			if (cmd != null)
-				System.out.println(cmd);
+			if (cmd != null) {
+				Executer ex = new Executer(workdir, cmd);
+				System.out.println(" * " + ex);
+				ex.getLatch().await();
+			}
 		}
 
 		System.out.println("Waiting...");
