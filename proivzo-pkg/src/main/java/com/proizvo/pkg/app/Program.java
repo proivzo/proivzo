@@ -46,8 +46,8 @@ public class Program {
                         Map<String, String> skip = asMap(val.get("skip"));
                         String skipFilePath = skip.get("file");
                         if (skipFilePath != null) {
-                            File skipFile = findExe(workdir, skipFilePath);
-                            if (skipFile.exists()) {
+                            File skipFile = findExe(workdir, skipFilePath, false);
+                            if (skipFile != null && skipFile.exists()) {
                                 System.out.println(" skip because '"+skipFile.getName()+"' already exists!");
                                 continue;
                             }

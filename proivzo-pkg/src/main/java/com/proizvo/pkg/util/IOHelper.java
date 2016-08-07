@@ -62,10 +62,12 @@ public class IOHelper {
 		return map;
 	}
 
-	public static File findExe(File root, String exe) {
+	public static File findExe(File root, String exe, boolean fail) {
 		for (File file : FileUtils.listFiles(root, null, true))
 			if (file.getName().equalsIgnoreCase(exe) && file.length() >= 1)
 				return file;
+		if (!fail)
+			return null;
 		throw new UnsupportedOperationException("Couldn't find '" + exe + "'!");
 	}
 }

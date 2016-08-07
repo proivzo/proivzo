@@ -22,13 +22,13 @@ public class Executer implements Closeable, AutoCloseable {
 	private final CountDownLatch latch;
 	private final ProcessBuilder builder;
 
-	public Executer(File root, String cmd) throws IOException {
+	public Executer(File root, String cmd) throws IOException, InterruptedException {
 		this.cmd = cmd;
 		this.latch = new CountDownLatch(1);
 		String[] pts = cmd.split(" ");
 		String exeName = pts[0];
 		String[] args = Arrays.copyOfRange(pts, 1, pts.length);
-		File exe = findExe(root, exeName);
+		File exe = findExe(root, exeName, true);
 		if (!exe.canExecute())
 			exe.setExecutable(true, true);
 		List<String> cmds = new LinkedList<>();
@@ -50,7 +50,7 @@ public class Executer implements Closeable, AutoCloseable {
 				}
 			}
 		}
-		System.out.println(" ??? (" + exe.getName() + ") Program terminated with code=" + proc.exitValue() + "!");
+		System.out.println(" ??? (" + exe.getName() + ") Program terminated with code=" + proc.waitFor() + "!");
 		latch.countDown();
 	}
 
