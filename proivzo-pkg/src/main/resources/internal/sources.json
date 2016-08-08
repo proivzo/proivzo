@@ -38,6 +38,10 @@
 		{
 			unix: 'node $EXEPDIR$/../lib/node_modules/cordova/bin/cordova create $SCWD$',
 			windows: 'node.exe $EXEPDIR$/node_modules/cordova/bin/cordova create $SCWD$'
+		},
+		copy:
+		{
+			'$TWD$': '$CWD$/www'
 		}
 	},
 	sdk_android: 
@@ -45,10 +49,6 @@
 		vars: 
 		{
 			ver: '24.4.1'
-		},
-		skip:
-		{
-			file: 'AndroidManifest.xml'
 		},
 		download: 
 		{

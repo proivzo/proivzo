@@ -49,8 +49,11 @@ public class Program {
 		workdir.mkdirs();
 		System.out.println("Work directory = " + workdir);
 		File tempdir = new File(replace(cfg.getProperty("tempdir"), sysVars));
+		FileUtils.deleteQuietly(tempdir);
 		tempdir.mkdirs();
 		System.out.println("Temp directory = " + tempdir);
+		File srcdir = (new File("")).getAbsoluteFile();
+		System.out.println("Source directory = " + srcdir);
 		File cwd = tempdir;
 		List<String> osKeys = detectOS();
 		osKeys.add("unknown");
@@ -139,6 +142,18 @@ public class Program {
 				String zval = z.getValue();
 				File zfile = new File(cwd, zval);
 				hostedFiles.put(zkey, zfile);
+			}
+
+			Map<String, String> copies = asMap(val.get("copy"));
+			Map<String, String> cvars = build("twd", srcdir + "", "cwd", cwd
+					+ "");
+			for (Entry<String, String> w : copies.entrySet()) {
+				String wkey = replace(w.getKey(), cvars);
+				String wval = replace(w.getValue(), cvars);
+				File src = new File(wkey);
+				File dst = new File(wval);
+				System.out.printf(" Copying '%s' to '%s'... %n", src, dst);
+				FileUtils.copyDirectory(src, dst);
 			}
 		}
 
