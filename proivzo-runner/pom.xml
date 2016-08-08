@@ -28,7 +28,7 @@
         <dependency>
             <groupId>com.github.xafero</groupId>
 	        <artifactId>sfs</artifactId>
-	        <version>b4bcf318cf</version>
+	        <version>8b9f3dac76</version>
         </dependency>
     </dependencies>
 

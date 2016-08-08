@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.IOFileFilter;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 
 public class IOHelper {
 
@@ -69,5 +71,30 @@ public class IOHelper {
 		if (!fail)
 			return null;
 		throw new UnsupportedOperationException("Couldn't find '" + exe + "'!");
+	}
+
+	public static File like(File root, String term) {
+		IOFileFilter ff = TrueFileFilter.INSTANCE;
+		IOFileFilter df = TrueFileFilter.INSTANCE;
+		for (File file : FileUtils.listFilesAndDirs(root, ff, df))
+			if (like(file.getName(), term))
+				return file;
+		throw new UnsupportedOperationException("Couldn't find '" + term + "'!");
+	}
+
+	public static boolean like(String name, String term) {
+		if (!term.contains("%"))
+			return term.equalsIgnoreCase(name);
+		String regex = term.replace("%", "\\w+");
+		boolean result = name.matches(regex);
+		return result;
+	}
+
+	public static void makeExecutable(File dir) {
+		IOFileFilter ff = TrueFileFilter.INSTANCE;
+		IOFileFilter df = TrueFileFilter.INSTANCE;
+		for (File file : FileUtils.listFilesAndDirs(dir, ff, df))
+			if (!file.canExecute())
+				file.setExecutable(true, false);
 	}
 }

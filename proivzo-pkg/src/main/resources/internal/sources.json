@@ -18,14 +18,26 @@
 		{
 			ver: 'latest'
 		},
-                skip:
-                {
-                	file: 'cordova'
-                },
+        skip:
+        {
+        	file: 'cordova'
+        },
 		script:
 		{
 			unix: 'node $EXEPDIR$/../lib/node_modules/npm/cli.js install -g cordova@$VER$',
 			windows: 'node.exe $EXEPDIR$/node_modules/npm/cli.js install -g cordova@$VER$'
+		}
+	},
+	new_proj:
+	{
+		vars:
+		{
+			scwd: 'JustAwebbyApp'
+		},
+		script:
+		{
+			unix: 'node $EXEPDIR$/../lib/node_modules/cordova/bin/cordova create $SCWD$',
+			windows: 'node.exe $EXEPDIR$/node_modules/cordova/bin/cordova create $SCWD$'
 		}
 	},
 	sdk_android: 
@@ -33,6 +45,10 @@
 		vars: 
 		{
 			ver: '24.4.1'
+		},
+		skip:
+		{
+			file: 'AndroidManifest.xml'
 		},
 		download: 
 		{
@@ -45,5 +61,43 @@
 			unix: 'node $EXEPDIR$/../lib/node_modules/cordova/bin/cordova platform add android',
 			windows: 'node.exe $EXEPDIR$/node_modules/cordova/bin/cordova platform add android'
 		}
-	}
+	},
+	update_android:
+	{
+		skip:
+		{
+			file: 'android.jar'
+		},
+		files:
+		{
+			input: 'y'
+		},	
+		script:
+		{
+			unknown: 'android update sdk --no-ui --filter build-tools-24.0.1,android-23'
+		}
+	},
+	gen_android:
+	{
+		env:
+		{
+			ANDROID_HOME: 'android-sdk-%'
+		},
+		chmod: 
+		{
+			'android-sdk-%': 777
+		},
+		script:
+		{
+			unix: 'node $EXEPDIR$/../lib/node_modules/cordova/bin/cordova build android',
+			windows: 'node.exe $EXEPDIR$/node_modules/cordova/bin/cordova build android'
+		}
+	},
+	host_android:
+	{
+		serve:
+		{
+			'android.apk': 'platforms/android/build/outputs/apk/android-debug.apk'
+		}
+	}		
 }

@@ -16,13 +16,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
+import com.proizvo.pkg.api.IEnvCustomizer;
+
 public class Executer implements Closeable, AutoCloseable {
 
 	private final String cmd;
 	private final CountDownLatch latch;
 	private final ProcessBuilder builder;
 
-	public Executer(File root, String cmd) throws IOException, InterruptedException {
+	public Executer(File root, String cmd, File cwd, IEnvCustomizer ec,
+			File input) throws IOException, InterruptedException {
 		this.cmd = cmd;
 		this.latch = new CountDownLatch(1);
 		String[] pts = cmd.split(" ");
@@ -36,9 +39,12 @@ public class Executer implements Closeable, AutoCloseable {
 		Map<String, String> vars = build("exepdir", exe.getParent());
 		for (String arg : args)
 			cmds.add(replace(arg, vars));
-		this.builder = new ProcessBuilder(cmds);
+		this.builder = (new ProcessBuilder(cmds)).directory(cwd);
 		Map<String, String> env = builder.environment();
+		ec.customize(env);
 		builder.redirectErrorStream(true);
+		if (input != null && input.exists() && input.canRead())
+			builder.redirectInput(input);
 		final Process proc = builder.start();
 		try (InputStream in = proc.getInputStream()) {
 			try (InputStreamReader inr = new InputStreamReader(in)) {
@@ -50,7 +56,8 @@ public class Executer implements Closeable, AutoCloseable {
 				}
 			}
 		}
-		System.out.println(" ??? (" + exe.getName() + ") Program terminated with code=" + proc.waitFor() + "!");
+		System.out.println(" ??? (" + exe.getName()
+				+ ") Program terminated with code=" + proc.waitFor() + "!");
 		latch.countDown();
 	}
 
