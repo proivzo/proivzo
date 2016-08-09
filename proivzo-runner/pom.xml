@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
-        <exe.class>com.proizvo.runner.app.Program</exe.class>
+        <exe.class>com.proizvo.runner.app.HostDialog</exe.class>
     </properties>
 
     <dependencies>
