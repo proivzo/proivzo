@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 
 public class Program {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main2(String[] args) throws IOException, InterruptedException {
         int width = 816;
         int height = 624;
         String title = "Proizvo";
