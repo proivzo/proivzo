@@ -31,8 +31,9 @@ import javax.swing.Timer;
  */
 public class HostDialog extends JDialog {
 
-    private static void showDialog(Frame parent, boolean modal, final boolean exitSystem) {
+    public static void showDialog(Frame parent, boolean modal, final boolean exitSystem, File workDir) {
         final HostDialog dialog = new HostDialog(parent, modal);
+        dialog.workDir = workDir;
         dialog.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
@@ -52,6 +53,7 @@ public class HostDialog extends JDialog {
 
     private SwingWorker<Boolean, Boolean> worker;
     private Timer timer;
+    private File workDir;
 
     /**
      * Creates new form HostDialog
@@ -297,12 +299,16 @@ public class HostDialog extends JDialog {
         // Load variables with their defaults
         int width = Integer.parseInt(cfg.getProperty("width", "816"));
         int height = Integer.parseInt(cfg.getProperty("height", "624"));
-        String title = cfg.getProperty("title", "Proizvo");
+        String title = cfg.getProperty("title", "Proizvo Runner");
         String hostName = cfg.getProperty("host", "localhost");
         int port = Integer.parseInt(cfg.getProperty("port", "9942"));
         File root = (new File(cfg.getProperty("root", ""))).getAbsoluteFile();
         String redirect = cfg.getProperty("redirect", "index.html");
         int waiting = Integer.parseInt(cfg.getProperty("waiting", (2 * 1000) + ""));
+        // Patch root when invoked from editor
+        if (workDir != null) {
+            root = workDir;
+        }
         // Set UI elements
         widthSpinner.setValue(width);
         heightSpinner.setValue(height);
@@ -365,7 +371,7 @@ public class HostDialog extends JDialog {
                 JFrame parent = new javax.swing.JFrame();
                 boolean modal = false;
                 final boolean exitSystem = true;
-                showDialog(parent, modal, exitSystem);
+                showDialog(parent, modal, exitSystem, null);
             }
         });
     }

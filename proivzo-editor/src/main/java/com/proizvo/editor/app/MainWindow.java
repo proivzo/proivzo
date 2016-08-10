@@ -10,7 +10,6 @@ import com.proizvo.editor.cfg.Configuration;
 import com.proizvo.editor.data.Map;
 import com.proizvo.editor.data.MapInfo;
 import com.proizvo.editor.data.Tileset;
-import com.proizvo.editor.impl.ProjectCreator;
 import com.proizvo.editor.impl.RPGMakerMVProj;
 import com.proizvo.editor.tiles.TilePanel;
 import com.proizvo.editor.ui.PluginManagerDialog;
@@ -777,6 +776,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         miGameTest.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         miGameTest.setText("Test game");
+        miGameTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miGameTestActionPerformed(evt);
+            }
+        });
         gameMenu.add(miGameTest);
         gameMenu.add(jSeparator4);
 
@@ -990,6 +994,15 @@ public class MainWindow extends javax.swing.JFrame {
         pmgr.setVisible(true);
     }//GEN-LAST:event_miPluginsActionPerformed
 
+    private void miGameTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGameTestActionPerformed
+        IProject lastProj = Environment.getInstance().getCurrent();
+        if (lastProj == null) {
+            return;
+        }
+        File gameDir = new File(lastProj.getBaseDirectory());
+        testGame(gameDir);
+    }//GEN-LAST:event_miGameTestActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1200,5 +1213,11 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
         return groups;
+    }
+
+    private void testGame(File gameDir) {
+        boolean modal = true;
+        boolean exiting = false;
+        com.proizvo.runner.app.HostDialog.showDialog(this, modal, exiting, gameDir);
     }
 }

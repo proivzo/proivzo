@@ -100,6 +100,12 @@
             <artifactId>JavaFastPFOR</artifactId>
             <version>0.1.7</version>
         </dependency>
+        <!-- For game running -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>proizvo-runner</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <repositories>
