@@ -74,7 +74,8 @@
 		},	
 		script:
 		{
-			unknown: 'android update sdk --no-ui --filter build-tools-24.0.1,android-23'
+			unix: 'android update sdk --no-ui --filter build-tools-24.0.1,android-23',
+			windows: 'android.bat update sdk --no-ui --filter build-tools-24.0.1,android-23'
 		}
 	},
 	gen_android:
