@@ -5,11 +5,21 @@
  */
 package com.proizvo.pkg.app;
 
+import java.awt.Frame;
+import java.io.File;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author john
  */
-public class PublishDialog extends javax.swing.JDialog {
+public class PublishDialog extends JDialog {
+
+    public static void showDialog(Frame parent, boolean modal, final boolean exitSystem,
+            File workDir, File exportDir) {
+
+    }
 
     /**
      * Creates new form PublishDialog
@@ -29,6 +39,7 @@ public class PublishDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         btnOsGroup = new javax.swing.ButtonGroup();
+        dirChooser = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         rbWin = new javax.swing.JRadioButton();
@@ -39,7 +50,12 @@ public class PublishDialog extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         btnPublish = new javax.swing.JButton();
 
+        dirChooser.setApproveButtonText("Choose");
+        dirChooser.setDialogTitle("Select storage directory");
+        dirChooser.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Publish your game");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Options"));
 
@@ -145,13 +161,14 @@ public class PublishDialog extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnChoosePubStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChoosePubStorageActionPerformed
-        if (chooseProjFolder.showOpenDialog(this) != JOptionPane.OK_OPTION) {
+        if (dirChooser.showOpenDialog(this) != JOptionPane.OK_OPTION) {
             return;
         }
-        File pubFolder = chooseProjFolder.getSelectedFile();
+        File pubFolder = dirChooser.getSelectedFile();
         tfPubStorageLoc.setText(pubFolder.getAbsolutePath());
     }//GEN-LAST:event_btnChoosePubStorageActionPerformed
 
@@ -201,6 +218,7 @@ public class PublishDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnChoosePubStorage;
     private javax.swing.ButtonGroup btnOsGroup;
     private javax.swing.JButton btnPublish;
+    private javax.swing.JFileChooser dirChooser;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;

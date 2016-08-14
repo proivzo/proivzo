@@ -86,16 +86,6 @@ public class MainWindow extends javax.swing.JFrame {
         abVerLbl = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        pubProjDialog = new javax.swing.JDialog();
-        jLabel6 = new javax.swing.JLabel();
-        tfPubStorageLoc = new javax.swing.JTextField();
-        btnChoosePubStorage = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        rbWin = new javax.swing.JRadioButton();
-        rbMac = new javax.swing.JRadioButton();
-        rbIos = new javax.swing.JRadioButton();
-        bgPlatform = new javax.swing.ButtonGroup();
         toolBar = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -315,88 +305,6 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(abCloseBtn)
-                .addContainerGap())
-        );
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel6.setText("Output folder:");
-
-        btnChoosePubStorage.setText("Choose...");
-        btnChoosePubStorage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChoosePubStorageActionPerformed(evt);
-            }
-        });
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel11.setText("Platform");
-
-        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        bgPlatform.add(rbWin);
-        rbWin.setSelected(true);
-        rbWin.setText("Windows");
-
-        bgPlatform.add(rbMac);
-        rbMac.setText("Mac OS X");
-
-        bgPlatform.add(rbIos);
-        rbIos.setText("Android/iOS");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(rbWin)
-                .addGap(53, 53, 53)
-                .addComponent(rbMac)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(rbIos)
-                .addGap(41, 41, 41))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbWin)
-                    .addComponent(rbMac)
-                    .addComponent(rbIos))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout pubProjDialogLayout = new javax.swing.GroupLayout(pubProjDialog.getContentPane());
-        pubProjDialog.getContentPane().setLayout(pubProjDialogLayout);
-        pubProjDialogLayout.setHorizontalGroup(
-            pubProjDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pubProjDialogLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pubProjDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(pubProjDialogLayout.createSequentialGroup()
-                        .addGroup(pubProjDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfPubStorageLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnChoosePubStorage))
-                    .addComponent(jLabel11)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        pubProjDialogLayout.setVerticalGroup(
-            pubProjDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pubProjDialogLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pubProjDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfPubStorageLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnChoosePubStorage))
                 .addContainerGap())
         );
 
@@ -981,14 +889,6 @@ public class MainWindow extends javax.swing.JFrame {
         publishGame(gameDir, new File(gameDir, "../build"));
     }//GEN-LAST:event_miPublishProjActionPerformed
 
-    private void btnChoosePubStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChoosePubStorageActionPerformed
-        if (chooseProjFolder.showOpenDialog(this) != JOptionPane.OK_OPTION) {
-            return;
-        }
-        File pubFolder = chooseProjFolder.getSelectedFile();
-        tfPubStorageLoc.setText(pubFolder.getAbsolutePath());
-    }//GEN-LAST:event_btnChoosePubStorageActionPerformed
-
     private void miPluginsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPluginsActionPerformed
         PluginManagerDialog pmgr = new PluginManagerDialog(this, true);
         pmgr.setVisible(true);
@@ -1024,8 +924,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel abVerLbl;
     private javax.swing.JDialog aboutDialog;
     private javax.swing.JMenuItem aboutMenuItem;
-    private javax.swing.ButtonGroup bgPlatform;
-    private javax.swing.JButton btnChoosePubStorage;
     private javax.swing.JButton btnChooseStorage;
     private javax.swing.JFileChooser chooseProjFolder;
     private javax.swing.JMenuItem contentsMenuItem;
@@ -1054,18 +952,15 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator10;
     private javax.swing.JToolBar.Separator jSeparator11;
@@ -1116,10 +1011,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu modeMenu;
     private javax.swing.JDialog newProjDialog;
     private javax.swing.JFileChooser openProjChooser;
-    private javax.swing.JDialog pubProjDialog;
-    private javax.swing.JRadioButton rbIos;
-    private javax.swing.JRadioButton rbMac;
-    private javax.swing.JRadioButton rbWin;
     private javax.swing.JMenu scaleMenu;
     private javax.swing.JScrollPane scpTree;
     private javax.swing.JSplitPane spContent;
@@ -1127,7 +1018,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTabbedPane tbpItems;
     private javax.swing.JTextField tfGameTitle;
     private javax.swing.JTextField tfProjectName;
-    private javax.swing.JTextField tfPubStorageLoc;
     private javax.swing.JTextField tfStorageLoc;
     private javax.swing.JToolBar toolBar;
     private javax.swing.JMenu toolsMenu;
