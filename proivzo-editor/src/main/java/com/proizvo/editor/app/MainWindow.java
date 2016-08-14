@@ -973,11 +973,12 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_abCloseBtnActionPerformed
 
     private void miPublishProjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPublishProjActionPerformed
-IProject lastProj = Environment.getInstance().getCurrent();
-if (lastProj == null)
-return;
-File gameDir = new File(lastProj.getBaseDirectory());
-publishGame(gameDir, new File(gameDir, "build"));
+        IProject lastProj = Environment.getInstance().getCurrent();
+        if (lastProj == null) {
+            return;
+        }
+        File gameDir = new File(lastProj.getBaseDirectory());
+        publishGame(gameDir, new File(gameDir, "../build"));
     }//GEN-LAST:event_miPublishProjActionPerformed
 
     private void btnChoosePubStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChoosePubStorageActionPerformed
@@ -1220,9 +1221,9 @@ publishGame(gameDir, new File(gameDir, "build"));
         com.proizvo.runner.app.HostDialog.showDialog(this, modal, exiting, gameDir);
     }
 
-private void publishGame(File gameDir, File exportDir) {
-boolean modal = true;
-boolean exiting = false;
+    private void publishGame(File gameDir, File exportDir) {
+        boolean modal = true;
+        boolean exiting = false;
         com.proizvo.pkg.app.PublishDialog.showDialog(this, modal, exiting, gameDir, exportDir);
-}
+    }
 }
