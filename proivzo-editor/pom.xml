@@ -106,6 +106,12 @@
             <artifactId>proizvo-runner</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- For game publishing -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>proizvo-pkg</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <repositories>
