@@ -5,14 +5,14 @@
  */
 package com.proizvo.pkg.app;
 
+import com.proizvo.pkg.cfg.Configuration;
 import java.awt.EventQueue;
 import java.awt.Frame;
 import java.io.File;
+import java.util.Properties;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
-import javax.swing.Timer;
 import javax.swing.UIManager;
 
 /**
@@ -75,6 +75,11 @@ public class PublishDialog extends JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Publish your game");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Options"));
 
@@ -192,6 +197,26 @@ public class PublishDialog extends JDialog {
         File pubFolder = dirChooser.getSelectedFile();
         tfPubStorageLoc.setText(pubFolder.getAbsolutePath());
     }//GEN-LAST:event_btnChoosePubStorageActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // Load configuration at first startup
+        Configuration sys = Configuration.getInstance();
+        Properties cfg = sys.loadPackagerCfg();
+        // Load variables with their defaults
+        String title = cfg.getProperty("title", "Proizvo Packager");
+        File rootW = (new File(cfg.getProperty("workRoot", ""))).getAbsoluteFile();
+        File rootP = (new File(cfg.getProperty("packRoot", ""))).getAbsoluteFile();
+        // Patch root when invoked from editor
+        if (workDir != null) {
+            rootW = workDir;
+        }
+        if (exportDir != null) {
+            rootP = exportDir;
+        }
+        // Set UI elements
+        this.setTitle(title);
+        tfPubStorageLoc.setText(rootP + "");
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
