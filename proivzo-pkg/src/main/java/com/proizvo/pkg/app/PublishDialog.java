@@ -5,10 +5,15 @@
  */
 package com.proizvo.pkg.app;
 
+import java.awt.EventQueue;
 import java.awt.Frame;
 import java.io.File;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import javax.swing.Timer;
+import javax.swing.UIManager;
 
 /**
  *
@@ -18,13 +23,27 @@ public class PublishDialog extends JDialog {
 
     public static void showDialog(Frame parent, boolean modal, final boolean exitSystem,
             File workDir, File exportDir) {
-
+        final PublishDialog dialog = new PublishDialog(parent, modal);
+        dialog.workDir = workDir;
+        dialog.exportDir = exportDir;
+        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                if (exitSystem) {
+                    System.exit(0);
+                }
+            }
+        });
+        dialog.setVisible(true);
     }
+
+    private File workDir;
+    private File exportDir;
 
     /**
      * Creates new form PublishDialog
      */
-    public PublishDialog(java.awt.Frame parent, boolean modal) {
+    public PublishDialog(Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -94,6 +113,8 @@ public class PublishDialog extends JDialog {
                     .addComponent(rbIos))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        tfPubStorageLoc.setText("SOMEDIR");
 
         btnChoosePubStorage.setText("Choose...");
         btnChoosePubStorage.addActionListener(new java.awt.event.ActionListener() {
@@ -175,41 +196,18 @@ public class PublishDialog extends JDialog {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PublishDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PublishDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PublishDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PublishDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
+    public static void main(String args[]) throws Exception {
+        /* Set native OS X look and feel */
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Packager");
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
             public void run() {
-                PublishDialog dialog = new PublishDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                JFrame parent = new javax.swing.JFrame();
+                boolean modal = false;
+                final boolean exitSystem = true;
+                showDialog(parent, modal, exitSystem, null, null);
             }
         });
     }
