@@ -239,6 +239,8 @@ public class PublishDialog extends JDialog {
         worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
+                System.setProperty("TEMP_DIR", tempDir + "");
+                System.setProperty("TOOL_DIR", toolDir + "");
                 String[] args = new String[]{"-w", yourWork + ""};
                 com.xafero.jaddle.cmd.Program.main(args);
                 return true;
