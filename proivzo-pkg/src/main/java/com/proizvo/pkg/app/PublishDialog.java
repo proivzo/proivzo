@@ -239,6 +239,7 @@ public class PublishDialog extends JDialog {
         final File yourWork = new File(tfPubStorageLoc.getText());
         final String taskName = rbIos.isSelected() ? "android" : rbMac.isSelected() ? "macintosh"
                 : rbWin.isSelected() ? "windows" : null;
+        btnPublish.setEnabled(false);
         // Start and host it!
         worker = new SwingWorker<Boolean, Boolean>() {
             @Override
@@ -247,7 +248,7 @@ public class PublishDialog extends JDialog {
                 System.setProperty("TEMP_DIR", tempDir + "");
                 toolDir.mkdirs();
                 System.setProperty("TOOL_DIR", toolDir + "");
-                initTerminal(tempDir);
+                initTerminal((Frame)PublishDialog.this.getOwner(), false, tempDir);
                 String[] args = new String[]{"-w", yourWork + "", "-r", taskName};
                 com.xafero.jaddle.cmd.Program.main(args);
                 return true;

@@ -29,11 +29,6 @@
             <artifactId>jaddle</artifactId>
             <version>084209d458</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.mikera</groupId>
-            <artifactId>swing-console</artifactId>
-            <version>f1a1244d13</version>
-        </dependency>
     </dependencies>
 
     <repositories>
