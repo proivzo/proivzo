@@ -111,6 +111,7 @@
 				log('=== Build Android app ===');
 				e.put('ANDROID_HOME', androidHome+'');
 				chmod(w, [androidHome+'/build-tools'], e);
+                                chmod(w, [androidHome+'/tools'], e);
 				shell(appDir, q(['$NODE$','$CORDOVA$','build','android'],e), e);
                                 
 				log('=== Serve Android app ===');
