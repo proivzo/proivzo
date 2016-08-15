@@ -22,10 +22,11 @@ import javax.swing.UIManager;
 public class PublishDialog extends JDialog {
 
     public static void showDialog(Frame parent, boolean modal, final boolean exitSystem,
-            File workDir, File exportDir) {
+            File workDir, File tempDir, File toolDir) {
         final PublishDialog dialog = new PublishDialog(parent, modal);
         dialog.workDir = workDir;
-        dialog.exportDir = exportDir;
+        dialog.tempDir = tempDir;
+        dialog.toolDir = toolDir;
         dialog.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
@@ -38,7 +39,8 @@ public class PublishDialog extends JDialog {
     }
 
     private File workDir;
-    private File exportDir;
+    private File tempDir;
+    private File toolDir;
 
     /**
      * Creates new form PublishDialog
@@ -102,9 +104,9 @@ public class PublishDialog extends JDialog {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(rbWin)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addGap(37, 37, 37)
                 .addComponent(rbMac)
-                .addGap(49, 49, 49)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addComponent(rbIos)
                 .addGap(20, 20, 20))
         );
@@ -137,12 +139,14 @@ public class PublishDialog extends JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfPubStorageLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(tfPubStorageLoc))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnChoosePubStorage)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -169,12 +173,10 @@ public class PublishDialog extends JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnPublish)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnPublish)
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,17 +207,19 @@ public class PublishDialog extends JDialog {
         // Load variables with their defaults
         String title = cfg.getProperty("title", "Proizvo Packager");
         File rootW = (new File(cfg.getProperty("workRoot", ""))).getAbsoluteFile();
-        File rootP = (new File(cfg.getProperty("packRoot", ""))).getAbsoluteFile();
+        File rootD = (new File(cfg.getProperty("tempDir",
+                sys.myHome + File.separator + "temp"))).getAbsoluteFile();
+        File rootT = (new File(cfg.getProperty("toolDir",
+                sys.myHome + File.separator + "thirdparty"))).getAbsoluteFile();
         // Patch root when invoked from editor
-        if (workDir != null) {
-            rootW = workDir;
-        }
-        if (exportDir != null) {
-            rootP = exportDir;
-        }
+        workDir = workDir == null ? rootW : workDir;
+        tempDir = tempDir == null ? rootD : tempDir;
+        toolDir = toolDir == null ? rootT : toolDir;
         // Set UI elements
         this.setTitle(title);
-        tfPubStorageLoc.setText(rootP + "");
+        tfPubStorageLoc.setText(workDir + "");
+        System.out.printf("Temp dir => %s %n", tempDir);
+        System.out.printf("Tool dir => %s %n", toolDir);
     }//GEN-LAST:event_formWindowOpened
 
     /**
@@ -232,7 +236,7 @@ public class PublishDialog extends JDialog {
                 JFrame parent = new javax.swing.JFrame();
                 boolean modal = false;
                 final boolean exitSystem = true;
-                showDialog(parent, modal, exitSystem, null, null);
+                showDialog(parent, modal, exitSystem, null, null, null);
             }
         });
     }

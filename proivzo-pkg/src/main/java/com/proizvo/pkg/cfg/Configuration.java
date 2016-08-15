@@ -22,7 +22,7 @@ public class Configuration {
     }
 
     private final String userHome = System.getProperty("user.home");
-    private final File myHome = new File(userHome, ".proizvo");
+    public final File myHome = new File(userHome, ".proizvo");
     private final File packagerDef = new File(myHome, "packager.cfg");
 
     public Properties loadPackagerCfg() {
