@@ -13,6 +13,7 @@ import java.util.Properties;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 
 /**
@@ -30,6 +31,9 @@ public class PublishDialog extends JDialog {
         dialog.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
+                if (dialog.worker != null) {
+                    dialog.worker.cancel(true);
+                }
                 if (exitSystem) {
                     System.exit(0);
                 }
@@ -38,6 +42,7 @@ public class PublishDialog extends JDialog {
         dialog.setVisible(true);
     }
 
+    private SwingWorker<Boolean, Boolean> worker;
     private File workDir;
     private File tempDir;
     private File toolDir;
@@ -228,13 +233,18 @@ public class PublishDialog extends JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnPublishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPublishActionPerformed
-        try {
-            File yourWork = new File(tfPubStorageLoc.getText());
-            String[] args = new String[]{"-w", yourWork + ""};
-            com.xafero.jaddle.cmd.Program.main(args);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        // Get current values
+        final File yourWork = new File(tfPubStorageLoc.getText());
+        // Start and host it!
+        worker = new SwingWorker<Boolean, Boolean>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                String[] args = new String[]{"-w", yourWork + ""};
+                com.xafero.jaddle.cmd.Program.main(args);
+                return true;
+            }
+        };
+        worker.execute();
     }//GEN-LAST:event_btnPublishActionPerformed
 
     /**
