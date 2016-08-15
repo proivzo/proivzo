@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 
+import static com.proizvo.pkg.con.Terminal.*;
+
 /**
  *
  * @author john
@@ -24,6 +26,7 @@ public class PublishDialog extends JDialog {
 
     public static void showDialog(Frame parent, boolean modal, final boolean exitSystem,
             File workDir, File tempDir, File toolDir) {
+        initTerminal();
         final PublishDialog dialog = new PublishDialog(parent, modal);
         dialog.workDir = workDir;
         dialog.tempDir = tempDir;
@@ -241,7 +244,9 @@ public class PublishDialog extends JDialog {
         worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
+                tempDir.mkdirs();
                 System.setProperty("TEMP_DIR", tempDir + "");
+                toolDir.mkdirs();
                 System.setProperty("TOOL_DIR", toolDir + "");
                 String[] args = new String[]{"-w", yourWork + "", "-r", taskName};
                 com.xafero.jaddle.cmd.Program.main(args);
