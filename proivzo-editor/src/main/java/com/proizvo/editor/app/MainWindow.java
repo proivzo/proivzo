@@ -886,7 +886,7 @@ public class MainWindow extends javax.swing.JFrame {
             return;
         }
         File gameDir = new File(lastProj.getBaseDirectory());
-        publishGame(gameDir, new File(gameDir, "../build"));
+        publishGame(gameDir, null, null);
     }//GEN-LAST:event_miPublishProjActionPerformed
 
     private void miPluginsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPluginsActionPerformed
@@ -1111,9 +1111,10 @@ public class MainWindow extends javax.swing.JFrame {
         com.proizvo.runner.app.HostDialog.showDialog(this, modal, exiting, gameDir);
     }
 
-    private void publishGame(File gameDir, File exportDir) {
+    private void publishGame(File gameDir, File tempDir, File toolDir) {
         boolean modal = true;
         boolean exiting = false;
-        com.proizvo.pkg.app.PublishDialog.showDialog(this, modal, exiting, gameDir, exportDir);
+        com.proizvo.pkg.app.PublishDialog.showDialog(this, modal, exiting, 
+                gameDir, tempDir, toolDir);
     }
 }

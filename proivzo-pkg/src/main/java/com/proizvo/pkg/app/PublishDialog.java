@@ -166,6 +166,11 @@ public class PublishDialog extends JDialog {
         );
 
         btnPublish.setText("Publish");
+        btnPublish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPublishActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -221,6 +226,16 @@ public class PublishDialog extends JDialog {
         System.out.printf("Temp dir => %s %n", tempDir);
         System.out.printf("Tool dir => %s %n", toolDir);
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnPublishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPublishActionPerformed
+        try {
+            File yourWork = new File(tfPubStorageLoc.getText());
+            String[] args = new String[]{"-w", yourWork + ""};
+            com.xafero.jaddle.cmd.Program.main(args);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }//GEN-LAST:event_btnPublishActionPerformed
 
     /**
      * @param args the command line arguments

@@ -24,9 +24,18 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.xafero</groupId>
+            <artifactId>jaddle</artifactId>
+            <version>12d8d2c725</version>
+        </dependency>
     </dependencies>
 
     <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <build>
