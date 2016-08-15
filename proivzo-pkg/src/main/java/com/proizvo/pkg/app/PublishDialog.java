@@ -26,7 +26,6 @@ public class PublishDialog extends JDialog {
 
     public static void showDialog(Frame parent, boolean modal, final boolean exitSystem,
             File workDir, File tempDir, File toolDir) {
-        initTerminal();
         final PublishDialog dialog = new PublishDialog(parent, modal);
         dialog.workDir = workDir;
         dialog.tempDir = tempDir;
@@ -248,6 +247,7 @@ public class PublishDialog extends JDialog {
                 System.setProperty("TEMP_DIR", tempDir + "");
                 toolDir.mkdirs();
                 System.setProperty("TOOL_DIR", toolDir + "");
+                initTerminal(tempDir);
                 String[] args = new String[]{"-w", yourWork + "", "-r", taskName};
                 com.xafero.jaddle.cmd.Program.main(args);
                 return true;
