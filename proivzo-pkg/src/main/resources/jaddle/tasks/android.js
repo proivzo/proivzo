@@ -39,25 +39,25 @@
 				var tmpDir = e.get('TEMP_DIR');
 				var tolDir = e.get('TOOL_DIR');
 				var wrkDir = w;
-				
+
 				log('=== Node JS download ===');
 				setenv(w, ['NJSV','6.3.1'], e);
 				var d = null;
 				if (os('windows'))
-					d = wget(w, [p('https://nodejs.org/dist/v$NJSV$/node-v$NJSV$-win-x64.zip',e)], e);
+					d = wget(tolDir, [p('https://nodejs.org/dist/v$NJSV$/node-v$NJSV$-win-x64.zip',e)], e);
 				else if (os('mac_osx'))
-					d = wget(w, [p('https://nodejs.org/dist/v$NJSV$/node-v$NJSV$-darwin-x64.tar.gz',e)], e);
+					d = wget(tolDir, [p('https://nodejs.org/dist/v$NJSV$/node-v$NJSV$-darwin-x64.tar.gz',e)], e);
 				else if (os('linux'))
-					d = wget(w, [p('https://nodejs.org/dist/v$NJSV$/node-v$NJSV$-linux-x64.tar.xz',e)], e);
+					d = wget(tolDir, [p('https://nodejs.org/dist/v$NJSV$/node-v$NJSV$-linux-x64.tar.xz',e)], e);
 
 				log('=== Node JS extract ===');
-				var nodeHome = unzip(w, d, e)[0][0];
+				var nodeHome = unzip(tolDir, d, e)[0][0];
 				chmod(w, [nodeHome+'/bin'], e);
 
 				log('=== Cordova install ===');
-				var nodeExe = find(w, [os('windows') ? 'node.exe' : 'node'], e)[0];
+				var nodeExe = find(tolDir, [os('windows') ? 'node.exe' : 'node'], e)[0];
 				setenv(w, ['NODE',nodeExe+''], e);
-				var cordovaExe = find(w, ['cordova'], e)[0];
+				var cordovaExe = find(tolDir, ['cordova'], e)[0];
 				setenv(w, ['CORV','latest'], e);
 
 				if (!cordovaExe) {
@@ -65,17 +65,17 @@
 						shell(nodeHome, q(['$NODE$','lib/node_modules/npm/cli.js','install','-g','cordova@$CORV$'],e), e);
 					else if (os('windows'))
 						shell(nodeHome, q(['$NODE$','node_modules/npm/cli.js','install','-g','cordova@$CORV$'],e), e);
-					cordovaExe = find(w, ['cordova'], e)[0];
+					cordovaExe = find(nodeHome, ['cordova'], e)[0];
 				}
 
 				log('=== New Cordova project ===');
 				setenv(w, ['CORDOVA',cordovaExe+''], e);
 				var scwd = 'JustAwebbyApp';
 				setenv(w, ['SCWD',scwd], e);
-				shell(w, q(['$NODE$','$CORDOVA$','create','$SCWD$','io.proizvo.game','Game'],e), e);
+				shell(tmpDir, q(['$NODE$','$CORDOVA$','create','$SCWD$','io.proizvo.game','Game'],e), e);
 
 				log('=== Copy game resources ===');
-				var appDir = new File(w, scwd);
+				var appDir = new File(tmpDir, scwd);
 				setenv(w, ['CWD',appDir+''], e);
 				setenv(w, ['TWD','target'], e);
 				copy(w, q(['$TWD$','$CWD$/www'],e), e);
@@ -84,16 +84,16 @@
 				setenv(w, ['ANDV','24.4.1'], e);
 				d = null;
 				if (os('windows'))
-					d = wget(w, [p('https://dl.google.com/android/android-sdk_r$ANDV$-windows.zip',e)], e);
+					d = wget(tolDir, [p('https://dl.google.com/android/android-sdk_r$ANDV$-windows.zip',e)], e);
 				else if (os('mac_osx'))
-					d = wget(w, [p('https://dl.google.com/android/android-sdk_r$ANDV$-macosx.zip',e)], e);
+					d = wget(tolDir, [p('https://dl.google.com/android/android-sdk_r$ANDV$-macosx.zip',e)], e);
 				else if (os('linux'))
-					d = wget(w, [p('https://dl.google.com/android/android-sdk_r$ANDV$-linux.tgz',e)], e);
+					d = wget(tolDir, [p('https://dl.google.com/android/android-sdk_r$ANDV$-linux.tgz',e)], e);
 
 				log('=== Android SDK extract ===');
-				var androidHome = unzip(w, d, e)[0][0];
+				var androidHome = unzip(tolDir, d, e)[0][0];
 				chmod(w, [androidHome+'/tools/android'], e);
-				var androidExe = find(w, [os('windows') ? 'android.bat' : 'android'], e)[0];
+				var androidExe = find(tolDir, [os('windows') ? 'android.bat' : 'android'], e)[0];
 				setenv(w, ['ANDROID',androidExe+''], e);
 
 				log('=== Add Android platform ===');
