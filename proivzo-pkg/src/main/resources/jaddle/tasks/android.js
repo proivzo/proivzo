@@ -98,6 +98,8 @@
 				var androidExe = find(tolDir, [os('windows') ? 'android.bat' : 'android'], e)[0];
 				setenv(w, ['ANDROID',androidExe+''], e);
 
+				// TODO: Some C:\Windows\System32\xcopy.exe error ?
+
 				log('=== Add Android platform ===');
 				e.put('PATH', e.get('PATH') + File.pathSeparator + nodeExe.getParentFile());
 				shell(appDir, q(['$NODE$','$CORDOVA$','platform','add','android'],e), e);
