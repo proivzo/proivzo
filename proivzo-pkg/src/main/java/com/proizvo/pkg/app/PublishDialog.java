@@ -235,13 +235,15 @@ public class PublishDialog extends JDialog {
     private void btnPublishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPublishActionPerformed
         // Get current values
         final File yourWork = new File(tfPubStorageLoc.getText());
+        final String taskName = rbIos.isSelected() ? "android" : rbMac.isSelected() ? "macintosh"
+                : rbWin.isSelected() ? "windows" : null;
         // Start and host it!
         worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
                 System.setProperty("TEMP_DIR", tempDir + "");
                 System.setProperty("TOOL_DIR", toolDir + "");
-                String[] args = new String[]{"-w", yourWork + ""};
+                String[] args = new String[]{"-w", yourWork + "", "-r", taskName};
                 com.xafero.jaddle.cmd.Program.main(args);
                 return true;
             }
