@@ -36,6 +36,10 @@
 				var shell = tasks.getTask('shell').exec;
 				var copy = tasks.getTask('copy').exec;
 
+				var tmpDir = e.get('TEMP_DIR');
+				var tolDir = e.get('TOOL_DIR');
+				var wrkDir = w;
+				
 				log('=== Node JS download ===');
 				setenv(w, ['NJSV','6.3.1'], e);
 				var d = null;
