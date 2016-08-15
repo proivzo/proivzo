@@ -35,10 +35,10 @@
 				var chmod = tasks.getTask('chmod').exec;
 				var shell = tasks.getTask('shell').exec;
 				var copy = tasks.getTask('copy').exec;
+				var serve = tasks.getTask('serve').exec;
 
-				var tmpDir = e.get('TEMP_DIR');
-				var tolDir = e.get('TOOL_DIR');
-				var wrkDir = w;
+				var tmpDir = new File(e.get('TEMP_DIR'));
+				var tolDir = new File(e.get('TOOL_DIR'));
 
 				log('=== Node JS download ===');
 				setenv(w, ['NJSV','6.3.1'], e);
@@ -57,15 +57,17 @@
 				log('=== Cordova install ===');
 				var nodeExe = find(tolDir, [os('windows') ? 'node.exe' : 'node'], e)[0];
 				setenv(w, ['NODE',nodeExe+''], e);
-				var cordovaExe = find(tolDir, ['cordova'], e)[0];
+
+				var nodeModLib = os('windows') ? 'node_modules/' : 'lib/node_modules/';
+				var nodeMods = new File(nodeHome, nodeModLib);
+				setenv(w, ['NODE_MODS',nodeMods+''], e);
+
+				var cordovaExe = find(nodeMods, ['cordova'], e)[0];
 				setenv(w, ['CORV','latest'], e);
 
 				if (!cordovaExe) {
-					if (os('unix'))
-						shell(nodeHome, q(['$NODE$','lib/node_modules/npm/cli.js','install','-g','cordova@$CORV$'],e), e);
-					else if (os('windows'))
-						shell(nodeHome, q(['$NODE$','node_modules/npm/cli.js','install','-g','cordova@$CORV$'],e), e);
-					cordovaExe = find(nodeHome, ['cordova'], e)[0];
+					shell(nodeHome, q(['$NODE$',nodeModLib+'npm/cli.js','install','-g','cordova@$CORV$'],e), e);
+					cordovaExe = find(nodeMods, ['cordova'], e)[0];
 				}
 
 				log('=== New Cordova project ===');
@@ -77,7 +79,7 @@
 				log('=== Copy game resources ===');
 				var appDir = new File(tmpDir, scwd);
 				setenv(w, ['CWD',appDir+''], e);
-				setenv(w, ['TWD','target'], e);
+				setenv(w, ['TWD',w+''], e);
 				copy(w, q(['$TWD$','$CWD$/www'],e), e);
 
 				log('=== Android SDK download ===');
@@ -105,7 +107,7 @@
 				shell(appDir, q(['$ANDROID$','update','sdk','--no-ui','--filter','build-tools-24.0.1,android-23'],e), e);
                                 
 				log('=== Build Android app ===');
-				e.put('ANDROID_HOME', androidHome);
+				e.put('ANDROID_HOME', androidHome+'');
 				chmod(w, [androidHome+'/build-tools'], e);
 				shell(appDir, q(['$NODE$','$CORDOVA$','build','android'],e), e);
                                 
