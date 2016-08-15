@@ -96,14 +96,14 @@
 				e.put('PATH', e.get('PATH') + File.pathSeparator + nodeExe.getParentFile());
 				shell(appDir, q(['$NODE$','$CORDOVA$','platform','add','android'],e), e);
 
-                                log('=== Update Android SDK ===');
-                                e.put('STD_IN', 'y');
-                                shell(appDir, q(['$ANDROID$','update','sdk','--no-ui','--filter','build-tools-24.0.1,android-23'],e), e);
+				log('=== Update Android SDK ===');
+				e.put('STD_IN', 'y');
+				shell(appDir, q(['$ANDROID$','update','sdk','--no-ui','--filter','build-tools-24.0.1,android-23'],e), e);
                                 
 				log('=== Build Android app ===');
-                                e.put('ANDROID_HOME', androidHome);
-                                chmod(w, [androidHome+'/build-tools'], e);
-                                shell(appDir, q(['$NODE$','$CORDOVA$','build','android'],e), e);
+				e.put('ANDROID_HOME', androidHome);
+				chmod(w, [androidHome+'/build-tools'], e);
+				shell(appDir, q(['$NODE$','$CORDOVA$','build','android'],e), e);
                                 
 				log('=== Serve Android app ===');
 				serve(appDir, q(['android.apk','platforms/android/build/outputs/apk/android-debug.apk'],e), e);
