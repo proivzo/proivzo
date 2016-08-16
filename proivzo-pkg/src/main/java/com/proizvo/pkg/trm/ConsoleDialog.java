@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.proizvo.pkg.con;
+package com.proizvo.pkg.trm;
 
 import javax.swing.JTextArea;
 

@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 
-import static com.proizvo.pkg.con.Terminal.*;
+import static com.proizvo.pkg.trm.Terminal.*;
 
 /**
  *
