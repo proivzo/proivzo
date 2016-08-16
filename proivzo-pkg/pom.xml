@@ -27,7 +27,7 @@
         <dependency>
             <groupId>com.github.xafero</groupId>
             <artifactId>jaddle</artifactId>
-            <version>-SNAPSHOT</version>
+            <version>064b0d7b6f</version>
         </dependency>
     </dependencies>
 
