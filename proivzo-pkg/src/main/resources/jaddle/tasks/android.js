@@ -1,5 +1,5 @@
 (function() {
-	var imports = new JavaImporter(java.io);
+	var imports = new JavaImporter(java.io, java.lang);
 
 	var p = function (text, vars) {
 		for each (var raw in vars.keySet()) {
@@ -115,7 +115,14 @@
 				shell(appDir, q(['$NODE$','$CORDOVA$','build','android'],e), e);
                                 
 				log('=== Serve Android app ===');
-				serve(appDir, q(['android.apk','platforms/android/build/outputs/apk/android-debug.apk'],e), e);
+				e.put('DONT_WAIT', 'true');
+				var pool = serve(appDir, q(['android.apk','platforms/android/build/outputs/apk/android-debug.apk'],e), e);
+				while (!Thread.currentThread().isInterrupted()) 
+					Thread.sleep(100);
+
+				log('=== Done everything ===');
+				pool.shutdown();
+				pool.shutdownNow();				
 			}
 		}
 	}
