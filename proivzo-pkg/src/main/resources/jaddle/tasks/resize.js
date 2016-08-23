@@ -14,6 +14,8 @@
 			var srcSize = BitUnit.format(input.length());
 			print(" << '" + input + "', " + srcSize + ", " + fmt + ", "
 					+ srcWidth + "x" + srcHeight);
+			if (srcWidth <= dstWidth || srcHeight <= dstHeight)
+				return;
 			var output = input;
 			var mro = new MultiStepRescaleOp(dstWidth, dstHeight);
 			var destImg = mro.filter(srcImg, null);

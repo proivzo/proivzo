@@ -84,7 +84,7 @@
 				copy(w, q(['$TWD$','$CWD$/www'],e), e);
 
 				log('=== Optimizing game resources ===');
-				resize('$CWD$/www', ['32x32'], e);
+				resize(new File(p('$CWD$/www',e)), ['1920x1080'], e);
 
 				log('=== Android SDK download ===');
 				setenv(w, ['ANDV','24.4.1'], e);
