@@ -34,7 +34,8 @@
 				var find = tasks.getTask('find').exec;
 				var chmod = tasks.getTask('chmod').exec;
 				var shell = tasks.getTask('shell').exec;
-				var copy = tasks.getTask('copy').exec;
+				var copy = tasks.getTask('parser').exec;
+				var resize = tasks.getTask('resize').exec;
 				var serve = tasks.getTask('serve').exec;
 
 				var tmpDir = new File(e.get('TEMP_DIR'));
@@ -81,6 +82,9 @@
 				setenv(w, ['CWD',appDir+''], e);
 				setenv(w, ['TWD',w+''], e);
 				copy(w, q(['$TWD$','$CWD$/www'],e), e);
+
+				log('=== Optimizing game resources ===');
+				resize('$CWD$/www', ['32x32'], e);
 
 				log('=== Android SDK download ===');
 				setenv(w, ['ANDV','24.4.1'], e);
