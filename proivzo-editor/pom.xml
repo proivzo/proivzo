@@ -24,7 +24,14 @@
         <exe.version>1.0.0.0</exe.version>
         <linux.dir>/opt/${project.artifactId}</linux.dir>
         <linuxDoc.dir>/usr/share/doc/${project.artifactId}</linuxDoc.dir>
+        <!-- For build timestamp -->
+        <mytimestamp>${maven.build.timestamp}</mytimestamp>
+        <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>                       
     </properties>
+    
+    <scm>
+        <developerConnection>scm:git:ssh://git@github.com/proivzo/proivzo.git</developerConnection>
+    </scm>
 
     <dependencies>
         <!-- Testing -->
@@ -145,6 +152,34 @@
 
     <build>
         <plugins>
+            <plugin>            
+                <!-- Get the revision of source control management -->           
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!-- Generate version class for runtime information -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>templating-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-version-class</id>
+                        <goals>
+                            <goal>filter-sources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>            
             <plugin>
                 <!-- For TypeScript generation -->
                 <groupId>com.ppedregal.typescript</groupId>
