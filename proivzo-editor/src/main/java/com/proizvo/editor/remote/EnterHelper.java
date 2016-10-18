@@ -43,7 +43,7 @@ class EnterHelper {
         return json;
     }
 
-    private static Properties getSystemInfo() {
+    static Properties getSystemInfo() {
         // Inputs...
         Map<String, String> env = System.getenv();
         Properties prp = System.getProperties();
@@ -54,6 +54,7 @@ class EnterHelper {
         CentralProcessor cpu = hal.getProcessor();
         GlobalMemory mem = hal.getMemory();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        Version clv = new Version();
         // Extract useful information
         Properties map = new Properties();
         map.put("user.name", prp.getOrDefault("user.name", env.getOrDefault("USER", env.get("LOGNAME"))));
@@ -86,6 +87,11 @@ class EnterHelper {
         map.put("glx.count", hal.getDisplays().length);
         map.put("glx.width", dim.getWidth());
         map.put("glx.height", dim.getHeight());
+        map.put("client.id", clv.getGroupId() + "." + clv.getArtifactId());
+        map.put("client.version", clv.getVersion());
+        map.put("client.branch", clv.getScmBranch());
+        map.put("client.rev", clv.getScmRevision());
+        map.put("client.date", clv.getBuildDate());
         return map;
     }
 
