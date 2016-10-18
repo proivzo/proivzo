@@ -125,6 +125,12 @@
             <artifactId>javax.ws.rs-api</artifactId>
             <version>2.1-m01</version>
         </dependency>
+        <!-- For information -->
+        <dependency>
+            <groupId>com.github.dblock</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>3.2</version>
+        </dependency>
     </dependencies>
 
     <repositories>
