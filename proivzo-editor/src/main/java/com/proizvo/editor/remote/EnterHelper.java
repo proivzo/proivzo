@@ -20,6 +20,8 @@ import oshi.software.os.OperatingSystem;
 import oshi.software.os.OperatingSystemVersion;
 import oshi.util.FormatUtil;
 
+import static com.proizvo.editor.util.Maps.getOrOther;
+
 class EnterHelper {
 
     static JsonObject toJsonObject(Map<?, ?> raw) {
@@ -57,23 +59,23 @@ class EnterHelper {
         Version clv = new Version();
         // Extract useful information
         Properties map = new Properties();
-        map.put("user.name", prp.getOrDefault("user.name", env.getOrDefault("USER", env.get("LOGNAME"))));
-        map.put("user.dir.home", prp.getOrDefault("user.home", env.get("HOME")));
+        map.put("user.name", getOrOther(prp, "user.name", getOrOther(env, "USER", env.get("LOGNAME"))));
+        map.put("user.dir.home", getOrOther(prp, "user.home", env.get("HOME")));
         map.put("vm.vendor", prp.get("java.vm.vendor"));
         map.put("vm.name", prp.get("java.vm.name"));
         map.put("vm.version", prp.get("java.vm.version"));
         map.put("user.locale.country",
-                getNiceCountry(prp.getOrDefault("user.country.format", prp.get("user.country"))));
+                getNiceCountry(getOrOther(prp, "user.country.format", prp.get("user.country"))));
         map.put("user.dir.work", prp.get("user.dir"));
         map.put("java.version", prp.get("java.runtime.version"));
         map.put("os.vendor", os.getManufacturer());
-        map.put("os.name", prp.getOrDefault("os.name", os.getFamily()));
-        map.put("os.arch", prp.getOrDefault("os.arch", prp.get("sun.arch.data.model")));
-        map.put("os.version.short", prp.getOrDefault("os.version", ver.getVersion()));
-        map.put("user.encoding", prp.getOrDefault("file.encoding", prp.get("sun.jnu.encoding")));
+        map.put("os.name", getOrOther(prp, "os.name", os.getFamily()));
+        map.put("os.arch", getOrOther(prp, "os.arch", prp.get("sun.arch.data.model")));
+        map.put("os.version.short", getOrOther(prp, "os.version", ver.getVersion()));
+        map.put("user.encoding", getOrOther(prp, "file.encoding", prp.get("sun.jnu.encoding")));
         map.put("java.jre", ToolProvider.getSystemJavaCompiler() == null);
         map.put("java.spec", prp.get("java.specification.version"));
-        map.put("user.locale.lang", getNiceLang(prp.getOrDefault("user.language.format", prp.get("user.language"))));
+        map.put("user.locale.lang", getNiceLang(getOrOther(prp, "user.language.format", prp.get("user.language"))));
         map.put("cpu.info.endian", prp.get("sun.cpu.endian"));
         map.put("os.version.build", ver.getBuildNumber());
         map.put("os.version.code", ver.getCodeName());
