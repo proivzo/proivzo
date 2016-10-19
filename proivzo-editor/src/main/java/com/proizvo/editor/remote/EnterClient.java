@@ -1,5 +1,7 @@
 package com.proizvo.editor.remote;
 
+import static com.proizvo.editor.remote.EnterHelper.*;
+import com.google.gson.JsonObject;
 import javax.ws.rs.client.*;
 import javax.ws.rs.*;
 
@@ -20,7 +22,8 @@ public class EnterClient {
     }
 
     public void login() throws ClientErrorException {
-        target.request().put(null);
+        JsonObject json = toJsonObject(getSystemInfo());
+        target.request().post(Entity.json(json));
     }
 
     public void close() {
