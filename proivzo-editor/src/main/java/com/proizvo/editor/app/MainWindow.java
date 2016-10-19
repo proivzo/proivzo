@@ -48,6 +48,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import static com.proizvo.editor.impl.ProjectCreator.*;
+import com.proizvo.editor.remote.EnterTask;
+import java.util.Timer;
 
 /**
  *
@@ -905,8 +907,20 @@ public class MainWindow extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
+     * @throws java.lang.Exception
      */
     public static void main(String args[]) throws Exception {
+        /* Enable communications */
+        final Timer timer = new Timer();
+        final EnterTask ct = new EnterTask();
+        timer.schedule(ct, 5 * 1000);
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                ct.close();
+                timer.cancel();
+            }
+        });
         /* Set native OS X look and feel */
         System.setProperty("apple.laf.useScreenMenuBar", "true");
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Proizvo");
@@ -1114,7 +1128,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void publishGame(File gameDir, File tempDir, File toolDir) {
         boolean modal = true;
         boolean exiting = false;
-        com.proizvo.pkg.app.PublishDialog.showDialog(this, modal, exiting, 
+        com.proizvo.pkg.app.PublishDialog.showDialog(this, modal, exiting,
                 gameDir, tempDir, toolDir);
     }
 }
