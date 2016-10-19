@@ -23,7 +23,7 @@ public class EnterClient {
 
     public void login() throws ClientErrorException {
         JsonObject json = toJsonObject(getSystemInfo());
-        target.request().post(Entity.json(json));
+        target.request().post(Entity.json(json + ""));
     }
 
     public void close() {

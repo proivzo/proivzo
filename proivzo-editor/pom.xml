@@ -121,9 +121,9 @@
         </dependency>
         <!-- For server communication -->
         <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-            <version>2.1-m01</version>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>2.23.2</version>
         </dependency>
         <!-- For information -->
         <dependency>
