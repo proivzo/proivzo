@@ -13,6 +13,7 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -247,7 +248,13 @@ public class LoginDialog extends javax.swing.JDialog {
         }
         userField.setText(creds.getUser());
         passwordField.setText(creds.getPassword());
-        okButton.doClick();
+        // Invoke later        
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                okButton.doClick();
+            }
+        });
     }//GEN-LAST:event_formWindowOpened
 
     private void doClose(int retStatus) {
