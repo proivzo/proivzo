@@ -131,6 +131,18 @@
             <artifactId>oshi-core</artifactId>
             <version>3.2</version>
         </dependency>
+        <!-- For security -->
+        <dependency>
+            <groupId>com.github.xafero</groupId>
+            <artifactId>java-keyring</artifactId>
+            <version>6c90044140</version>
+        </dependency>
+        <!-- For nice UI -->
+        <dependency>
+            <groupId>com.xafero</groupId>
+            <artifactId>nice-swing</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <repositories>

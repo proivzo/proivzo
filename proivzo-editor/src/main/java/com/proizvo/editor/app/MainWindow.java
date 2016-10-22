@@ -49,7 +49,7 @@ import javax.swing.tree.TreePath;
 
 import static com.proizvo.editor.impl.ProjectCreator.*;
 import com.proizvo.editor.remote.EnterTask;
-import java.util.Timer;
+import javax.swing.Timer;
 
 /**
  *
@@ -911,14 +911,15 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public static void main(String args[]) throws Exception {
         /* Enable communications */
-        final Timer timer = new Timer();
         final EnterTask ct = new EnterTask();
-        timer.schedule(ct, 5 * 1000);
+        final Timer timer = new Timer(5 * 1000, ct);
+        timer.setRepeats(false);
+        timer.start();
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
                 ct.close();
-                timer.cancel();
+                timer.stop();
             }
         });
         /* Set native OS X look and feel */
@@ -927,8 +928,9 @@ public class MainWindow extends javax.swing.JFrame {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new MainWindow().setVisible(true);
+                ct.parent(new MainWindow()).setVisible(true);
             }
         });
     }
