@@ -139,9 +139,9 @@
         </dependency>
         <!-- For nice UI -->
         <dependency>
-            <groupId>com.xafero</groupId>
+            <groupId>com.github.xafero</groupId>
             <artifactId>nice-swing</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>5926e63d06</version>
         </dependency>
     </dependencies>
 
