@@ -49,6 +49,7 @@ import javax.swing.tree.TreePath;
 
 import static com.proizvo.editor.impl.ProjectCreator.*;
 import com.proizvo.editor.remote.EnterTask;
+import com.proizvo.editor.remote.Version;
 import javax.swing.Timer;
 
 /**
@@ -85,9 +86,10 @@ public class MainWindow extends javax.swing.JFrame {
         chooseProjFolder = new javax.swing.JFileChooser();
         aboutDialog = new javax.swing.JDialog();
         abCloseBtn = new javax.swing.JButton();
-        abVerLbl = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        abTitleLbl = new javax.swing.JLabel();
+        abSubtitleLbl = new javax.swing.JLabel();
+        abIconLbl = new javax.swing.JLabel();
+        abUltratitleLbl = new javax.swing.JLabel();
         toolBar = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -256,6 +258,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         aboutDialog.setTitle("About Proizvo");
         aboutDialog.setResizable(false);
+        aboutDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                aboutDialogWindowOpened(evt);
+            }
+        });
 
         abCloseBtn.setText("Close");
         abCloseBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -264,13 +271,16 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        abVerLbl.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        abVerLbl.setText("Version 1.0.0");
+        abTitleLbl.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        abTitleLbl.setText("Version 1.0.0");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setText("Copyright (C) 2016 Open Inventions Federated, Inc.");
+        abSubtitleLbl.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        abSubtitleLbl.setText("Copyright (C) 2016 Open Inventions Federated, Inc.");
 
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/app_icon.jpg"))); // NOI18N
+        abIconLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/app_icon.jpg"))); // NOI18N
+
+        abUltratitleLbl.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        abUltratitleLbl.setText("All rights reserved.");
 
         javax.swing.GroupLayout aboutDialogLayout = new javax.swing.GroupLayout(aboutDialog.getContentPane());
         aboutDialog.getContentPane().setLayout(aboutDialogLayout);
@@ -282,30 +292,30 @@ public class MainWindow extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(abCloseBtn))
                     .addGroup(aboutDialogLayout.createSequentialGroup()
-                        .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(aboutDialogLayout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(jLabel5))
-                            .addGroup(aboutDialogLayout.createSequentialGroup()
-                                .addGap(117, 117, 117)
-                                .addComponent(jLabel10)))
+                        .addGap(27, 27, 27)
+                        .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(abTitleLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(abUltratitleLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(abSubtitleLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 15, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(aboutDialogLayout.createSequentialGroup()
-                .addGap(135, 135, 135)
-                .addComponent(abVerLbl)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, aboutDialogLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(abIconLbl)
+                .addGap(138, 138, 138))
         );
         aboutDialogLayout.setVerticalGroup(
             aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, aboutDialogLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel10)
-                .addGap(13, 13, 13)
-                .addComponent(abVerLbl)
+                .addGap(17, 17, 17)
+                .addComponent(abIconLbl)
+                .addGap(12, 12, 12)
+                .addComponent(abTitleLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addComponent(abSubtitleLbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(abUltratitleLbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addComponent(abCloseBtn)
                 .addContainerGap())
         );
@@ -905,6 +915,19 @@ public class MainWindow extends javax.swing.JFrame {
         testGame(gameDir);
     }//GEN-LAST:event_miGameTestActionPerformed
 
+    private void aboutDialogWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_aboutDialogWindowOpened
+        Version ver = new Version();
+        aboutDialog.setTitle(String.format("About %s", ver.getName()));
+        abTitleLbl.setText(String.format("Version %s (%s/%s)",
+                ver.getVersion(), ver.getScmBranch(),
+                ver.getScmRevision().substring(0, 10)));
+        abSubtitleLbl.setText(String.format("#%s by %s", ver.getBuildDate().replace("-", "")
+                .replace("T", "").replace(":", "").replace("Z", "")
+                .substring(0, 10), ver.getOrgName()));
+        abUltratitleLbl.setText(String.format("<HTML><a href=\"%s\">%s</a></HTML>",
+                ver.getOrgURL(), ver.getOrgURL()));
+    }//GEN-LAST:event_aboutDialogWindowOpened
+
     /**
      * @param args the command line arguments
      * @throws java.lang.Exception
@@ -937,7 +960,10 @@ public class MainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton abCloseBtn;
-    private javax.swing.JLabel abVerLbl;
+    private javax.swing.JLabel abIconLbl;
+    private javax.swing.JLabel abSubtitleLbl;
+    private javax.swing.JLabel abTitleLbl;
+    private javax.swing.JLabel abUltratitleLbl;
     private javax.swing.JDialog aboutDialog;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton btnChooseStorage;
@@ -967,11 +993,9 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
